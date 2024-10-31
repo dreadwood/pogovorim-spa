@@ -31,7 +31,7 @@ function BlockChatTop({ className }: BlockChatTopProps): JSX.Element {
         <div className={styles.label}>Блок {currentBlockNum}</div>
         <div className={styles.category}>
           <Sprite name="graph" width="16" height="16" />
-          <span>{currentBlock?.task_count} категорий</span>
+          <span>{currentBlock?.categories_count} категорий</span>
         </div>
       </div>
     </div>
