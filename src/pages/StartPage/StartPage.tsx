@@ -11,14 +11,17 @@ import { useAppSelector } from '@/hooks/reducer'
 function StartPage(): JSX.Element {
   const { clientId, userId } = useAppSelector(state => state.user)
 
-  const { data: blockData, isLoading: isLoadingData } =
-    useGetStatBlockDataQuery({
-      client_uniq_id: clientId as string,
-      user_uniq_id: userId as string,
-      app_id: APP_ID
-    })
+  const { data: blockData, isLoading: isLoadingBlockData } =
+    useGetStatBlockDataQuery(
+      {
+        client_uniq_id: clientId as string,
+        user_uniq_id: userId as string,
+        app_id: APP_ID
+      },
+      { refetchOnMountOrArgChange: true }
+    )
 
-  if (isLoadingData) {
+  if (isLoadingBlockData) {
     return <Loading />
   }
 

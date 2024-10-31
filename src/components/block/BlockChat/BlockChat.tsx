@@ -21,13 +21,13 @@ interface BlockChatProps {
 function BlockChat({ className }: BlockChatProps): JSX.Element {
   const dispatch = useAppDispatch()
 
-  const { currentBlock, currentCategory } = useAppSelector(
+  const { currentBlock, currentCategory, currentQuestion } = useAppSelector(
     state => state.questionnaire
   )
   const { userId } = useAppSelector(state => state.user)
   const [fetchSendAnswer] = useLazySendAnswerQuery()
 
-  const [indexOption, setIndexOption] = useState<number>(0)
+  const [indexOption, setIndexOption] = useState<number>(currentQuestion)
 
   const { data: categories } = useGetCategoriesQuery(
     {

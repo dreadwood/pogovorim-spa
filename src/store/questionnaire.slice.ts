@@ -5,12 +5,14 @@ interface QuestionnaireSlice {
   currentBlock: StatBlock | null
   currentBlockNum: number
   currentCategory: number
+  currentQuestion: number
 }
 
 const initialState: QuestionnaireSlice = {
   currentBlock: null,
   currentBlockNum: 0,
-  currentCategory: 0
+  currentCategory: 0,
+  currentQuestion: 0
 }
 
 const questionnaireSlice = createSlice({
@@ -28,6 +30,9 @@ const questionnaireSlice = createSlice({
     },
     incrementCurrentCategory: state => {
       state.currentCategory = state.currentCategory + 1
+    },
+    setCurrentQuestion: (state, action: PayloadAction<number>) => {
+      state.currentQuestion = action.payload
     }
   }
 })
@@ -36,7 +41,8 @@ export const {
   setCurrentBlock,
   setCurrentBlockNum,
   setCurrentCategory,
-  incrementCurrentCategory
+  incrementCurrentCategory,
+  setCurrentQuestion
 } = questionnaireSlice.actions
 
 export default questionnaireSlice.reducer
