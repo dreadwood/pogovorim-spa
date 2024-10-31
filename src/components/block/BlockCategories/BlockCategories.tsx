@@ -2,20 +2,22 @@ import { useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import Swiper from 'swiper'
 import { Navigation, Mousewheel } from 'swiper/modules'
-import CardProgress from '@/components/card/CardProgress/CardProgress'
+import CardCategory from '@/components/card/CardCategory/CardCategory'
 import Sprite from '@/components/Sprite/Sprite'
-import styles from './BlockProgress.module.scss'
+import styles from './BlockCategories.module.scss'
 import '/node_modules/swiper/swiper.min.css'
 import { useGetCategoriesQuery } from '@/store/questionnaire.api'
 import { APP_ID } from '@/const'
 import { useAppSelector } from '@/hooks/reducer'
 
-interface BlockProgressProps {
+interface BlockCategoriesProps {
   className?: string
 }
 
-function BlockProgress({ className }: BlockProgressProps): JSX.Element {
-  const { currentBlock } = useAppSelector(state => state.questionnaire)
+function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
+  const { currentBlock, currentCategory } = useAppSelector(
+    state => state.questionnaire
+  )
 
   const { data: categories } = useGetCategoriesQuery(
     {
@@ -32,7 +34,6 @@ function BlockProgress({ className }: BlockProgressProps): JSX.Element {
   const btnNextRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
-    const initialSlide = 2
     if (!swiperRef.current) return
 
     new Swiper(swiperRef.current, {
@@ -40,7 +41,7 @@ function BlockProgress({ className }: BlockProgressProps): JSX.Element {
       mousewheel: {
         forceToAxis: true
       },
-      initialSlide,
+      initialSlide: currentCategory,
       spaceBetween: 12,
       grabCursor: true,
       slidesPerView: 'auto',
@@ -48,7 +49,6 @@ function BlockProgress({ className }: BlockProgressProps): JSX.Element {
         enabled: true,
         sticky: true
       },
-      // centeredSlides: true,
       navigation: {
         prevEl: btnPrevRef.current,
         nextEl: btnNextRef.current
@@ -70,7 +70,11 @@ function BlockProgress({ className }: BlockProgressProps): JSX.Element {
               className={clsx(styles.item, 'swiper-slide')}
               key={category.uniq_id}
             >
-              <CardProgress category={category} number={i + 1} />
+              <CardCategory
+                isActv={currentCategory === i}
+                category={category}
+                number={i + 1}
+              />
             </div>
           ))}
       </div>
@@ -86,4 +90,4 @@ function BlockProgress({ className }: BlockProgressProps): JSX.Element {
   )
 }
 
-export default BlockProgress
+export default BlockCategories

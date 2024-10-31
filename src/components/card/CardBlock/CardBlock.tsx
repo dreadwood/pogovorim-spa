@@ -51,7 +51,7 @@ export default function CardBlock({
         </div>
         <div className={styles.count}>
           <Sprite name="graph" width="32" height="32" />
-          <span>{block.task_count} категорий</span>
+          <span>{block.categories_count} категорий</span>
         </div>
       </div>
       <div className={styles.content}>

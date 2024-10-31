@@ -79,7 +79,8 @@
   }
 }
 .answer {
-  @include transition(color, background-color, opacity);
+  @include transition(color, background, opacity);
+  position: relative;
   display: grid;
   flex-shrink: 0;
   place-items: center;
@@ -87,6 +88,7 @@
   height: 8rem;
   margin: 0;
   padding: 0;
+  overflow: hidden;
   font-family: $font-default;
   font-size: 2.2rem;
   line-height: 3.2rem;
@@ -96,17 +98,25 @@
   background: var(--msg-bubble-bg, #{$color-periwinkle-crayola});
   border: 0;
   border-radius: 2.2rem 0 2.2rem 2.2rem;
-  &.accent {
-    color: var(--msg-bubble-accent-color, $color-gray-020);
-    background: var(--msg-bubble-accent-bg, #{$gradient-yellow});
-    &:not([disabled]):hover,
-    &:not([disabled]):focus-visible {
-      opacity: 0.85;
-    }
-  }
   &:not([disabled]):hover,
   &:not([disabled]):focus-visible {
-    background-color: $color-very-pale-blue;
+    color: var(--msg-bubble-accent-color, $color-gray-020);
+    &::after {
+      opacity: 1;
+    }
+  }
+  &::after {
+    @include transition(opacity);
+    content: "";
+    position: absolute;
+    display: block;
+    background: var(--msg-bubble-accent-bg, #{$gradient-yellow});
+    opacity: 0;
+    inset: 0;
+  }
+  span {
+    position: relative;
+    z-index: 1;
   }
   @include tablet {
     width: 10rem;

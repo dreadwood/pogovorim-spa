@@ -1,15 +1,7 @@
 export interface Block {
-  id: number
   uniq_id: string
-  client_id: number
-  position: number
-  root_id: number
   title: string
   description: string
-  created_at: string
-  updated_at: string
-  app_id: number
-  publish: string
 }
 
 export interface StatBlock {
@@ -21,11 +13,27 @@ export interface StatBlock {
   option_count: number
   answers: number
   percent: string
+  categories_count: string
+}
+
+export interface Breakpoint {
+  id: number
+  uniq_id: string
+  title: string
+  type: string
+  task_id: number
+  category_uniq_id: string
+  category_id: number
+  block_uniq_id: string
+  block_id: number
 }
 
 export interface StatBlockData {
   blocks: {
     [key: number]: StatBlock
+  }
+  answers: {
+    current: Breakpoint
   }
 }
 
@@ -34,16 +42,18 @@ export interface UserUniqId {
 }
 
 export interface Category {
+  id: number
   uniq_id: string
   title: string
   description: string
+  questions_count: number
 }
 
 export interface Task {
   id: number
   uniq_id: string
-  question: string
-  options: TaskQuestion[]
+  title: string
+  questions: TaskQuestion[]
 }
 
 export interface TaskQuestion {

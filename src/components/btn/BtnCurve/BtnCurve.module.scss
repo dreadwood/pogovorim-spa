@@ -21,6 +21,7 @@
     }
   }
   &[disabled] {
+    cursor: default;
     .bg {
       color: $color-periwinkle-crayola;
     }

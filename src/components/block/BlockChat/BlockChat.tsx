@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import styles from './BlockChat.module.scss'
 import BtnGradient from '@/components/btn/BtnGradient/BtnGradient'
-import { useAppSelector } from '@/hooks/reducer'
+import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { APP_ID } from '@/const'
 import {
   useGetCategoriesQuery,
@@ -12,16 +12,22 @@ import { useState } from 'react'
 import CardMsgIn from '@/components/card/CardMsgIn/CardMsgIn'
 import CardMsgOut from '@/components/card/CardMsgOut/CardMsgOut'
 import { Answer } from '@/types/common'
+import { incrementCurrentCategory } from '@/store/questionnaire.slice'
 
 interface BlockChatProps {
   className?: string
 }
 
 function BlockChat({ className }: BlockChatProps): JSX.Element {
-  const [indexOption, setIndexOption] = useState<number>(0)
-  const { currentBlock } = useAppSelector(state => state.questionnaire)
+  const dispatch = useAppDispatch()
+
+  const { currentBlock, currentCategory } = useAppSelector(
+    state => state.questionnaire
+  )
   const { userId } = useAppSelector(state => state.user)
   const [fetchSendAnswer] = useLazySendAnswerQuery()
+
+  const [indexOption, setIndexOption] = useState<number>(0)
 
   const { data: categories } = useGetCategoriesQuery(
     {
@@ -31,10 +37,23 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     { selectFromResult: ({ data }) => ({ data }) }
   )
 
-  const { data: taskOptionList } = useGetTaskListQuery(
-    { category_uniq_id: categories ? categories[0].uniq_id : '' },
-    { skip: !categories }
-  )
+  const { data: taskOptionList, refetch: refetchTaskOptionList } =
+    useGetTaskListQuery(
+      {
+        category_uniq_id: categories ? categories[currentCategory].uniq_id : ''
+      },
+      { skip: !categories }
+    )
+
+  function nextQuestion() {
+    if (indexOption + 1 === taskOptionList?.length) {
+      dispatch(incrementCurrentCategory())
+      refetchTaskOptionList()
+      setIndexOption(0)
+    } else {
+      setIndexOption(i => i + 1)
+    }
+  }
 
   async function hadleAnswer(answer: Answer) {
     if (!taskOptionList || !taskOptionList[indexOption] || !userId) {
@@ -53,7 +72,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
       return
     }
 
-    setIndexOption(i => i + 1)
+    nextQuestion()
   }
 
   return (
@@ -75,10 +94,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
               {indexOption + 1} из {taskOptionList?.length}
             </div>
           </div>
-          <BtnGradient
-            text="Следующий вопрос"
-            onClick={() => setIndexOption(i => i + 1)}
-          />
+          <BtnGradient text="Следующий вопрос" onClick={() => nextQuestion()} />
         </div>
       </div>
     </div>

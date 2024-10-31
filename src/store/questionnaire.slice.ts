@@ -4,13 +4,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface QuestionnaireSlice {
   currentBlock: StatBlock | null
   currentBlockNum: number
-  currentOption: number
+  currentCategory: number
 }
 
 const initialState: QuestionnaireSlice = {
   currentBlock: null,
   currentBlockNum: 0,
-  currentOption: 0
+  currentCategory: 0
 }
 
 const questionnaireSlice = createSlice({
@@ -23,13 +23,20 @@ const questionnaireSlice = createSlice({
     setCurrentBlockNum: (state, action: PayloadAction<number>) => {
       state.currentBlockNum = action.payload
     },
-    setCurrentOption: (state, action: PayloadAction<number>) => {
-      state.currentOption = action.payload
+    setCurrentCategory: (state, action: PayloadAction<number>) => {
+      state.currentCategory = action.payload
+    },
+    incrementCurrentCategory: state => {
+      state.currentCategory = state.currentCategory + 1
     }
   }
 })
 
-export const { setCurrentBlock, setCurrentBlockNum, setCurrentOption } =
-  questionnaireSlice.actions
+export const {
+  setCurrentBlock,
+  setCurrentBlockNum,
+  setCurrentCategory,
+  incrementCurrentCategory
+} = questionnaireSlice.actions
 
 export default questionnaireSlice.reducer

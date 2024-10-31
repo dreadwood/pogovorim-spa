@@ -1,9 +1,9 @@
 import clsx from 'clsx'
-import styles from './CardProgress.module.scss'
+import styles from './CardCategory.module.scss'
 import Sprite from '@/components/Sprite/Sprite'
 import { Category } from '@/types/common'
 
-interface CardProgressProps {
+interface CardCategoryProps {
   category: Category
   number: number
   count?: string
@@ -11,13 +11,12 @@ interface CardProgressProps {
   isActv?: boolean
 }
 
-function CardProgress({
+export default function CardCategory({
   category,
   number,
-  count = 'Кол-во вопросов',
   isDone,
   isActv
-}: CardProgressProps): JSX.Element {
+}: CardCategoryProps): JSX.Element {
   return (
     <article
       className={clsx(
@@ -32,9 +31,7 @@ function CardProgress({
       </div>
       <div className={styles.label}>Категория {number}</div>
       <div className={styles.name}>{category.title}</div>
-      <div className={styles.count}>{count}</div>
+      <div className={styles.count}>{category.questions_count} вопросов</div>
     </article>
   )
 }
-
-export default CardProgress

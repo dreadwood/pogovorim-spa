@@ -1,6 +1,6 @@
 import Logo from '@/components/Logo/Logo'
 import styles from './ChatPage.module.scss'
-import BlockProgress from '@/components/block/BlockProgress/BlockProgress'
+import BlockCategories from '@/components/block/BlockCategories/BlockCategories'
 import BlockChatTop from '@/components/block/BlockChatTop/BlockChatTop'
 import BlockChat from '@/components/block/BlockChat/BlockChat'
 import PageLayout from '@/layout/PageLayout/PageLayout'
@@ -39,7 +39,7 @@ function ChatPage(): JSX.Element {
             <BlockChatTop />
           </div>
           <div className={styles.progress}>
-            <BlockProgress />
+            <BlockCategories />
           </div>
           <div className={styles.chat}>
             <BlockChat />

@@ -31,9 +31,19 @@ function StartPage(): JSX.Element {
         <div className={styles.center}>
           <div className={styles.list}>
             {blockData &&
-              Object.values(blockData.blocks).map((block, i) => (
-                <CardBlock block={block} number={i + 1} key={block.id} />
-              ))}
+              Object.values(blockData.blocks).map((block, i) => {
+                const isDisabled =
+                  blockData.answers.current.block_uniq_id !== block.uniq_id
+
+                return (
+                  <CardBlock
+                    block={block}
+                    number={i + 1}
+                    isDisabled={isDisabled}
+                    key={block.id}
+                  />
+                )
+              })}
           </div>
         </div>
 

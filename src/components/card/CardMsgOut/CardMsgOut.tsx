@@ -26,10 +26,10 @@ export default function CardMsgOut({
           className={clsx(styles.answer, styles.accent)}
           onClick={() => onYesClick('yes')}
         >
-          Да
+          <span>Да</span>
         </button>
         <button className={styles.answer} onClick={() => onNoClick('no')}>
-          Нет
+          <span>Нет</span>
         </button>
       </div>
     </div>
