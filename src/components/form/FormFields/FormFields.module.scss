@@ -1,0 +1,66 @@
+@import "@style/common";
+.field {
+  position: relative;
+  width: 100%;
+  font-family: $font-default;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 400;
+  text-align: left;
+  &:focus-within .label,
+  .input:not(:placeholder-shown) + .label {
+    bottom: 100%;
+    left: 1.4rem;
+    padding: 0.2rem 1.1rem;
+    font-size: 1.1rem;
+    line-height: 1.4rem;
+    background-color: #eef9f9;
+    border-radius: 6rem;
+  }
+}
+.input {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 2.1rem 2rem;
+  font: inherit;
+  font-weight: 500;
+  color: $color-gray-020;
+  background-color: $color-white;
+  border: 0;
+  border-radius: 6rem;
+  outline: none;
+  appearance: none;
+  &::placeholder {
+    opacity: 0;
+  }
+  &::-webkit-credentials-auto-fill-button {
+    // for hidden key icon in safari
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  &[type="number"]::-webkit-outer-spin-button,
+  &[type="number"]::-webkit-inner-spin-button {
+    // webkit
+    margin: 0;
+    appearance: none;
+  }
+  &[type="number"] {
+    // firefox
+    appearance: textfield;
+  }
+}
+.label {
+  @include transition(all);
+  position: absolute;
+  bottom: 50%;
+  left: 2rem;
+  display: block;
+  color: $color-manatee;
+  letter-spacing: -0.03rem;
+  translate: 0 50%;
+}

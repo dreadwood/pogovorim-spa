@@ -1,0 +1,168 @@
+@import "@style/common";
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 3.2rem 2.4rem 10rem 2.4rem;
+  background-color: $color-white;
+  border-radius: 2.2rem;
+  &.done {
+    .status {
+      display: block;
+    }
+    .chart {
+      --c: var(--c-block-chart-done-bg, #{$color-green-jungle-crayola});
+    }
+    .percent {
+      color: var(--c-block-percent-color, #{$color-green-jungle-crayola});
+    }
+  }
+  &.brand {
+    padding: 3.2rem 2.4rem;
+    .content {
+      margin-bottom: 3.6rem;
+    }
+  }
+  @include tablet {
+    &.brand {
+      .content {
+        margin-bottom: 3rem;
+      }
+    }
+  }
+  @include mobile-big {
+    padding: 2rem 2rem 8rem 2rem;
+    &.brand {
+      padding: 2rem;
+    }
+  }
+}
+.status {
+  position: absolute;
+  top: 0;
+  left: 2.4rem;
+  display: none;
+  width: calc(100% - 2.4rem * 2);
+  height: 0.2rem;
+  background-color: var(--c-block-status-bg, #{$color-green-jungle-crayola});
+  border-radius: 0 0 0.2rem 0.2rem;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.progress {
+  position: relative;
+  display: grid;
+  place-content: center;
+  place-items: center;
+  width: 7.2rem;
+  text-align: center;
+  aspect-ratio: 1 / 1;
+}
+.chart {
+  --p: 20;
+  --b: 0.4rem;
+  --c: var(--c-block-chart-bg, #{$color-green-jungle-crayola});
+  position: absolute;
+  inset: 0;
+  animation: pie-animation 1s 0.5s both;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 0.4rem solid $color-periwinkle-crayola-2;
+    border-radius: 50%;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    background: conic-gradient(var(--c) calc(var(--p) * 1%), transparent 0);
+    mask: radial-gradient(
+      farthest-side,
+      #00000000 calc(99% - var(--b)),
+      #000000 calc(100% - var(--b))
+    );
+    border-radius: 50%;
+    inset: 0;
+  }
+}
+
+@property --p {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes pie-animation {
+  0% {
+    --p: 0;
+  }
+}
+.percent {
+  padding-top: 0.4rem;
+  font-size: 1.6rem;
+  line-height: 1.9rem;
+  font-weight: 600;
+}
+.steps {
+  margin-top: -0.1rem;
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
+.count {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.6rem;
+  line-height: 1.9rem;
+  font-weight: 600;
+  svg {
+    width: 3.2rem;
+    height: 3.2rem;
+    fill: var(--c-block-icon-pie, #{$color-green-jungle-crayola});
+  }
+}
+.content {
+  margin-top: 6.3rem;
+  @include tablet {
+    margin-top: 4rem;
+  }
+}
+.label {
+  width: max-content;
+  padding: 0.6rem 0.8rem;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--c-block-label-color, #{$color-manatee});
+  background-color: var(--c-block-label-bg, #{$color-gridperlevy});
+  border-radius: var(--c-block-label-radius, 1.2rem);
+}
+.title {
+  @include text-truncate-multiline(2);
+  height: 4.8rem;
+  margin-top: 1.6rem;
+  font-size: 2rem;
+  line-height: 2.4rem;
+  font-weight: 700;
+  @include mobile {
+    height: auto;
+  }
+}
+.text {
+  margin-top: 2.4rem;
+  color: $color-gray-376;
+  @include tablet {
+    margin-top: 1.6rem;
+  }
+}
+.btnCurve {
+  position: absolute;
+  right: 0;
+  bottom: 3.1rem;
+}
+.btn {
+  margin-top: auto;
+}

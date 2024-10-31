@@ -1,0 +1,91 @@
+@import "@style/common";
+.list {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    display: block;
+    width: 20.8rem;
+    height: 100%;
+    pointer-events: none;
+  }
+  &::after {
+    right: 0;
+    background: linear-gradient(
+      270deg,
+      #f6f7f8 32.61%,
+      rgb(246 247 248 / 0%) 100%
+    );
+  }
+  @include tablet {
+    &::after {
+      width: 12rem;
+    }
+  }
+  @include mobile-big {
+    &::after {
+      display: none;
+      width: 6rem;
+    }
+  }
+}
+.wrp {
+  // @include hide-scroll;
+  // display: flex;
+  // align-items: center;
+  // gap: 2rem;
+  // overflow: scroll;
+}
+.item {
+  flex-shrink: 0;
+  /* stylelint-disable-next-line declaration-no-important */
+  width: 29.5rem !important;
+  @include mobile {
+    width: 25rem;
+  }
+}
+.controls {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: 3;
+  display: grid;
+  align-content: center;
+  gap: 0.8rem;
+  translate: 0 -50%;
+  @include mobile-big {
+    display: none;
+  }
+}
+.btn {
+  @include transition(background-color);
+  display: grid;
+  place-items: center;
+  width: 3.8rem;
+  margin: 0;
+  padding: 0;
+  color: $color-gray-020;
+  background-color: $color-white;
+  border: 0;
+  border-radius: 0.4rem;
+  aspect-ratio: 1 / 1;
+  svg {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    fill: currentcolor;
+  }
+  &[disabled] {
+    color: $color-manatee;
+    background-color: transparentize($color-white, 0.3);
+  }
+  &:not([disabled]):hover,
+  &:not([disabled]):focus-visible {
+    background-color: transparentize($color-manatee, 0.9);
+  }
+}

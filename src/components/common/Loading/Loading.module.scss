@@ -1,0 +1,9 @@
+@import "@style/common";
+.loading {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 3rem;
+  line-height: 1.2;
+}

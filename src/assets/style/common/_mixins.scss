@@ -1,0 +1,76 @@
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin hide-scroll {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@mixin transition($args...) {
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.3s;
+  transition-property: $args;
+}
+
+@mixin word-break {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+@mixin text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin text-truncate-multiline($row-count: 3) {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $row-count;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+@mixin text-nowrap {
+  white-space: nowrap;
+}
+
+@mixin desktop-big {
+  @media (max-width: $desktop-big-width - 1px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: $desktop-width - 1px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $table-width - 1px) {
+    @content;
+  }
+}
+
+@mixin mobile-big {
+  @media (max-width: $mobile-big-width - 1px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: $mobile-width - 1px) {
+    @content;
+  }
+}
+
+@mixin mobile-small {
+  @media (max-width: $mobile-small-width - 1px) {
+    @content;
+  }
+}

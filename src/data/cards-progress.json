@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "label": "Категория 1",
+    "name": "Условия рабочего пространства",
+    "count": "3 вопроса",
+    "isDone": true,
+    "isActv": false
+  },
+  {
+    "id": 2,
+    "label": "Категория 2",
+    "name": "Рабочие часы и задачи",
+    "count": "3 вопроса",
+    "isDone": true,
+    "isActv": false
+  },
+  {
+    "id": 3,
+    "label": "Категория 3",
+    "name": "Недостаток ресурсов",
+    "count": "8 вопросов",
+    "isDone": false,
+    "isActv": true
+  },
+  {
+    "id": 4,
+    "label": "Категория 4",
+    "name": "Условия рабочего пространства",
+    "count": "3 вопроса",
+    "isDone": false,
+    "isActv": false
+  },
+  {
+    "id": 5,
+    "label": "Категория 5",
+    "name": "Условия рабочего пространства",
+    "count": "3 вопроса",
+    "isDone": false,
+    "isActv": false
+  }
+]

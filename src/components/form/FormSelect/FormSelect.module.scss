@@ -1,0 +1,86 @@
+@import "@style/common";
+.select {
+  position: relative;
+  font-family: $font-default;
+  font-size: 1.4rem;
+  line-height: 1.4rem;
+  font-weight: 400;
+  text-align: left;
+  color: $color-gray-020;
+  letter-spacing: -0.03rem;
+  &.show {
+    .btn {
+      svg {
+        rotate: -180deg;
+      }
+    }
+    .drop {
+      display: block;
+    }
+  }
+  &.empty {
+    .btn {
+      color: $color-manatee;
+    }
+  }
+}
+.btn {
+  @include transition(color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 1.8rem 2rem;
+  font: inherit;
+  line-height: 2rem;
+  font-weight: 500;
+  color: $color-gray-020;
+  background-color: $color-white;
+  border: 0;
+  border-radius: 6rem;
+  svg {
+    @include transition(rotate, scale);
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.drop {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 1;
+  display: none;
+  width: 100%;
+  padding: 1.2rem 0;
+  background: $color-white;
+  border-radius: 1.2rem;
+  box-shadow:
+    0 64px 64px rgb(22 34 51 / 4%),
+    0 24px 24px rgb(22 34 51 / 2%);
+}
+.item {
+  @include transition(background-color);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 1.2rem 2rem;
+  font: inherit;
+  line-height: 1.6rem;
+  font-weight: 500;
+  background-color: transparent;
+  border: 0;
+  &:hover,
+  &:focus-visible {
+    background-color: transparentize($color-royal-blue, 0.95);
+  }
+  &.actv {
+    background-color: $color-gray-965;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.33398 9.33333L5.48938 10.9499C5.77517 11.1642 6.17913 11.1152 6.40535 10.8387L12.0007 4' stroke='%234F46E5' fill='none' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-size: 1.6rem;
+    background-position: right 2rem center;
+  }
+}

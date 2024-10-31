@@ -1,0 +1,53 @@
+@import "@style/common";
+.btn {
+  position: relative;
+  display: block;
+  display: grid;
+  place-items: center;
+  width: 4.2rem;
+  height: 10.1rem;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  &.edit {
+    .bg {
+      color: $color-periwinkle-crayola;
+    }
+    .icon {
+      width: 1.6rem;
+      height: 1.6rem;
+      color: $color-green-jungle-crayola;
+    }
+  }
+  &[disabled] {
+    .bg {
+      color: $color-periwinkle-crayola;
+    }
+    .icon {
+      color: $color-cadet-blue-crayola;
+    }
+  }
+}
+.bg {
+  width: 100%;
+  height: 100%;
+  color: $color-green-jungle-crayola;
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: currentcolor;
+  }
+}
+.icon {
+  position: absolute;
+  top: calc(50% + 0.2rem);
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+  color: $color-white;
+  translate: -50% -50%;
+  svg {
+    fill: currentcolor;
+  }
+}

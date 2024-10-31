@@ -1,0 +1,99 @@
+@import "@style/common";
+.wrp {
+  position: relative;
+  padding-bottom: 2.4rem;
+  text-align-last: left;
+  color: $color-gray-020;
+  border-bottom: 0.1rem solid $color-very-pale-blue;
+  border-radius: 1rem;
+  @include desktop-big {
+    padding-left: 3.6rem;
+  }
+}
+.btnBack {
+  @include transition(color);
+  position: absolute;
+  top: 0;
+  right: 100%;
+  translate: -13.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  font-family: $font-default;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  font-weight: 500;
+  text-align: center;
+  color: $color-gray-020;
+  text-decoration: none;
+  background-color: transparent;
+  border: 0;
+  &:hover,
+  &:focus-visible {
+    color: $color-black;
+  }
+  @include desktop-big {
+    left: 0;
+    translate: 0;
+    font-size: 0;
+  }
+}
+.btnBackIcon {
+  @include transition(background-color);
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.4rem;
+  background-color: $color-white;
+  border-radius: 0.4rem;
+  aspect-ratio: 1 / 1;
+  svg {
+    display: block;
+    width: 1.6rem;
+    fill: $color-manatee;
+    aspect-ratio: 1 / 1;
+  }
+}
+.name {
+  font-size: 2.4rem;
+  line-height: 2.9rem;
+  font-weight: 600;
+  @include mobile-big {
+    font-size: 1.8rem;
+    line-height: 2.1rem;
+  }
+}
+.bottom {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin-top: 1.4rem;
+  @include mobile-big {
+    margin-top: 1.2rem;
+  }
+}
+.label {
+  padding: 0.6rem 0.8rem;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  color: $color-manatee;
+  background-color: $color-white;
+  border-radius: 1.2rem;
+}
+.category {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  font-weight: 500;
+  svg {
+    flex-shrink: 0;
+    width: 1.6rem;
+    fill: var(--c-progress-icon-pie, #{$color-green-jungle-crayola});
+    aspect-ratio: 1 / 1;
+  }
+}
