@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { BACKEND_API } from '@/const'
 import { RootState } from '.'
 import {
+  IAnswerReq,
+  IAnswerRes,
   IBlockListReq,
   IBlockListRes,
   ICategoriesReq,
@@ -74,6 +76,14 @@ export const questionnaireApi = createApi({
       transformResponse: (response: ITaskListRes) =>
         transformTaskList(response.data)
     }),
+    sendAnswer: build.query<boolean | undefined, IAnswerReq>({
+      query: body => ({
+        url: 'answer',
+        method: 'POST',
+        body
+      }),
+      transformResponse: (response: IAnswerRes) => response.success
+    }),
     getConfig: build.query<Config | undefined, IConfigReq>({
       query: body => ({
         url: 'get-config',
@@ -90,8 +100,9 @@ export const {
   useGetStatBlockDataQuery,
   useLazyGetUserIdQuery,
   useGetCategoriesQuery,
-  useGetConfigQuery,
-  useGetTaskListQuery
+  useGetTaskListQuery,
+  useLazySendAnswerQuery,
+  useGetConfigQuery
 } = questionnaireApi
 
 export const selectGetDicts = (state: RootState) =>

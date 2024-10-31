@@ -1,4 +1,4 @@
-import { Block, Category, Config, StatBlockData, Task } from './common'
+import { Answer, Block, Category, Config, StatBlockData, Task } from './common'
 
 export interface IBlockListReq {
   client_uniq_id: string
@@ -65,9 +65,24 @@ export interface ITaskListRes {
   message: boolean
 }
 
+export interface IAnswerReq {
+  option_uniq_id: string
+  user_uniq_id: string
+  answer: Answer
+}
+
+export interface IAnswerRes {
+  success: boolean
+  data?: {
+    success: true
+  }
+  message: boolean
+}
+
 export interface IConfigReq {
   domain: string
 }
+
 export interface IConfigRes {
   success: boolean
   data?: Config

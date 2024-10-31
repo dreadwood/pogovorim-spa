@@ -64,3 +64,5 @@ export interface AppData {
   id: number
   title: string
 }
+
+export type Answer = 'yes' | 'no'

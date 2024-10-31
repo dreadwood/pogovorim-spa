@@ -5,11 +5,13 @@ import { useAppSelector } from '@/hooks/reducer'
 import { APP_ID } from '@/const'
 import {
   useGetCategoriesQuery,
-  useGetTaskListQuery
+  useGetTaskListQuery,
+  useLazySendAnswerQuery
 } from '@/store/questionnaire.api'
 import { useState } from 'react'
 import CardMsgIn from '@/components/card/CardMsgIn/CardMsgIn'
 import CardMsgOut from '@/components/card/CardMsgOut/CardMsgOut'
+import { Answer } from '@/types/common'
 
 interface BlockChatProps {
   className?: string
@@ -18,6 +20,8 @@ interface BlockChatProps {
 function BlockChat({ className }: BlockChatProps): JSX.Element {
   const [indexOption, setIndexOption] = useState<number>(0)
   const { currentBlock } = useAppSelector(state => state.questionnaire)
+  const { userId } = useAppSelector(state => state.user)
+  const [fetchSendAnswer] = useLazySendAnswerQuery()
 
   const { data: categories } = useGetCategoriesQuery(
     {
@@ -32,6 +36,26 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     { skip: !categories }
   )
 
+  async function hadleAnswer(answer: Answer) {
+    if (!taskOptionList || !taskOptionList[indexOption] || !userId) {
+      console.error('Не могу отправить ответ')
+      return
+    }
+
+    const res = await fetchSendAnswer({
+      option_uniq_id: taskOptionList[indexOption].uniq_id,
+      user_uniq_id: userId,
+      answer
+    })
+
+    if (!res.isSuccess) {
+      console.error('Произошла ошибка при отправке ответа')
+      return
+    }
+
+    setIndexOption(i => i + 1)
+  }
+
   return (
     <div className={clsx(styles.chat, className)}>
       <div className={styles.wrp}>
@@ -42,7 +66,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
               className={styles.msg}
             />
           )}
-          <CardMsgOut onNoClick={() => {}} onYesClick={() => {}} />
+          <CardMsgOut onNoClick={hadleAnswer} onYesClick={hadleAnswer} />
         </div>
         <div className={styles.bottom}>
           <div className={styles.progress}>

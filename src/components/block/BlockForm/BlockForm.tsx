@@ -71,7 +71,7 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
   async function handleFormSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault()
 
-    const req = await fetchGetUserId({
+    const res = await fetchGetUserId({
       client_uniq_id: clientId || '',
       app_id: APP_ID,
       email: email,
@@ -84,13 +84,13 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
       department: department ? department.value : ''
     })
 
-    if (!req.isSuccess) {
+    if (!res.isSuccess) {
       setFormMessage('Произошла ошибка.')
       return
     }
 
-    setUserLocal(req.data.user_uniq_id)
-    dispatch(setUserId(req.data.user_uniq_id))
+    setUserLocal(res.data.user_uniq_id)
+    dispatch(setUserId(res.data.user_uniq_id))
 
     setFirstName('')
     setSecondName('')

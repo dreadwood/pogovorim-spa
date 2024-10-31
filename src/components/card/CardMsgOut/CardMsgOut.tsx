@@ -1,9 +1,10 @@
 import clsx from 'clsx'
 import styles from './CardMsgOut.module.scss'
+import { Answer } from '@/types/common'
 
 interface CardMsgOutProps {
-  onYesClick: () => void
-  onNoClick: () => void
+  onYesClick: (answer: Answer) => void
+  onNoClick: (answer: Answer) => void
   className?: string
 }
 
@@ -23,11 +24,11 @@ export default function CardMsgOut({
       <div className={styles.list}>
         <button
           className={clsx(styles.answer, styles.accent)}
-          onClick={() => onYesClick()}
+          onClick={() => onYesClick('yes')}
         >
           Да
         </button>
-        <button className={styles.answer} onClick={() => onNoClick()}>
+        <button className={styles.answer} onClick={() => onNoClick('no')}>
           Нет
         </button>
       </div>
