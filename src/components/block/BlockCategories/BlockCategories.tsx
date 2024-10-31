@@ -29,14 +29,20 @@ function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
     }
   )
 
-  const swiperRef = useRef<HTMLDivElement | null>(null)
+  const swiperRef = useRef<Swiper | null>(null)
+  const swiperContainerRef = useRef<HTMLDivElement | null>(null)
   const btnPrevRef = useRef<HTMLButtonElement | null>(null)
   const btnNextRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
-    if (!swiperRef.current) return
+    if (!swiperContainerRef.current) return
 
-    new Swiper(swiperRef.current, {
+    if (swiperRef.current) {
+      swiperRef.current.slideTo(currentCategory)
+      return
+    }
+
+    swiperRef.current = new Swiper(swiperContainerRef.current, {
       modules: [Navigation, Mousewheel],
       mousewheel: {
         forceToAxis: true
@@ -59,10 +65,10 @@ function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
         }
       }
     })
-  }, [])
+  }, [currentCategory])
 
   return (
-    <div className={clsx(styles.list, className)} ref={swiperRef}>
+    <div className={clsx(styles.list, className)} ref={swiperContainerRef}>
       <div className={clsx(styles.wrp, 'swiper-wrapper')}>
         {categories &&
           categories.map((category, i) => (
@@ -72,6 +78,7 @@ function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
             >
               <CardCategory
                 isActv={currentCategory === i}
+                isDone={currentCategory > i}
                 category={category}
                 number={i + 1}
               />
