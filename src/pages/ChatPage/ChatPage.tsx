@@ -16,28 +16,42 @@ import Loading from '@/components/common/Loading/Loading'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { useEffect } from 'react'
 import {
+  setCurrentBlock,
+  setCurrentBlockNum,
   setCurrentCategory,
   setCurrentQuestion
 } from '@/store/questionnaire.slice'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 
 function ChatPage(): JSX.Element {
+  const { uniqId: blockId } = useParams()
+
   const dispatch = useAppDispatch()
   const { clientId, userId } = useAppSelector(state => state.user)
   const { currentBlock } = useAppSelector(state => state.questionnaire)
 
-  const { data: categories, isLoading: isLoadingCategories } =
-    useGetCategoriesQuery({
-      block_uniq_id: currentBlock?.uniq_id || '',
-      app_id: APP_ID
-    })
-
   const { data: blockData, isLoading: isLoadingBlockData } =
-    useGetStatBlockDataQuery({
-      client_uniq_id: clientId as string,
-      user_uniq_id: userId as string,
-      app_id: APP_ID
-    })
+    useGetStatBlockDataQuery(
+      {
+        client_uniq_id: clientId as string,
+        user_uniq_id: userId as string,
+        app_id: APP_ID
+      },
+      {
+        skip: !blockId
+      }
+    )
+
+  const { data: categories, isLoading: isLoadingCategories } =
+    useGetCategoriesQuery(
+      {
+        block_uniq_id: currentBlock?.uniq_id || '',
+        app_id: APP_ID
+      },
+      {
+        skip: !!currentBlock
+      }
+    )
 
   const { data: questionList, isLoading: isLoadingQuestionList } =
     useGetTaskListQuery(
@@ -48,6 +62,20 @@ function ChatPage(): JSX.Element {
     )
 
   useEffect(() => {
+    if (blockData) {
+      let blockNum = 1
+      const block = Object.values(blockData.blocks).find((block, i) => {
+        blockNum = i + 1
+        return block.uniq_id === blockId
+      })
+
+      // TODO: 2024-11-01 / add redirect
+      if (block) {
+        dispatch(setCurrentBlock(block))
+        dispatch(setCurrentBlockNum(blockNum))
+      }
+    }
+
     if (!blockData || !categories || !questionList) return
 
     const currentCategory = categories.findIndex(
@@ -61,18 +89,18 @@ function ChatPage(): JSX.Element {
 
     dispatch(setCurrentCategory(currentCategory))
     dispatch(setCurrentQuestion(currentQuestion))
-  }, [blockData, categories, questionList, dispatch])
+  }, [blockId, blockData, categories, questionList, dispatch])
 
   if (!userId) {
     return <Navigate to={AppRoute.Root} replace />
   }
 
-  if (!currentBlock) {
-    return <ErrorDialog msg={'Не удается получить данные блока опросника'} />
-  }
-
   if (isLoadingCategories || isLoadingBlockData || isLoadingQuestionList) {
     return <Loading />
+  }
+
+  if (!currentBlock) {
+    return <ErrorDialog msg={'Не удается получить данные блока опросника'} />
   }
 
   return (
