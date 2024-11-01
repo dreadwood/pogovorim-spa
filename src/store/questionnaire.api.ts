@@ -22,7 +22,7 @@ import {
   Category,
   Config,
   StatBlockData,
-  TaskQuestion,
+  TaskQuestionWithTask,
   UserUniqId
 } from '@/types/common'
 import { transformTaskList } from '@/utils/api'
@@ -67,7 +67,7 @@ export const questionnaireApi = createApi({
       }),
       transformResponse: (response: ICategoriesRes) => response.data
     }),
-    getTaskList: build.query<TaskQuestion[] | undefined, ITaskListReq>({
+    getTaskList: build.query<TaskQuestionWithTask[] | undefined, ITaskListReq>({
       query: body => ({
         url: 'get-tasks',
         method: 'POST',

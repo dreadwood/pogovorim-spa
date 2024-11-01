@@ -63,6 +63,14 @@ export interface TaskQuestion {
   type: string
 }
 
+export interface TaskQuestionWithTask {
+  id: number
+  uniq_id: string
+  task: string
+  title: string
+  type: string
+}
+
 export interface Config {
   uniq_id: string
   domain: string

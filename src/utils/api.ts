@@ -1,10 +1,16 @@
-import { Task, TaskQuestion } from '@/types/common'
+import { Task, TaskQuestionWithTask } from '@/types/common'
 
 export function transformTaskList(
   taskList: Task[] | undefined
-): TaskQuestion[] | undefined {
-  return taskList?.reduce<TaskQuestion[]>(
-    (acc, task) => [...acc, ...task.questions],
-    []
-  )
+): TaskQuestionWithTask[] | undefined {
+  return taskList?.reduce<TaskQuestionWithTask[]>((acc, task) => {
+    console.log(task.title)
+
+    const questions = task.questions.map<TaskQuestionWithTask>(question => ({
+      ...question,
+      task: task.title
+    }))
+
+    return [...acc, ...questions]
+  }, [])
 }

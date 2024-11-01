@@ -81,6 +81,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
         <div className={styles.content}>
           {taskOptionList && (
             <CardMsgIn
+              group={taskOptionList[indexOption].task}
               text={taskOptionList[indexOption].title}
               className={styles.msg}
             />

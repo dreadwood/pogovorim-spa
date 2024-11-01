@@ -2,12 +2,14 @@ import clsx from 'clsx'
 import styles from './CardMsgIn.module.scss'
 
 interface CardMsgInProps {
+  group: string
   text: string
   isSingle?: boolean
   className?: string
 }
 
 export default function CardMsgIn({
+  group,
   text,
   isSingle = false,
   className
@@ -22,7 +24,10 @@ export default function CardMsgIn({
         <div className={styles.spec}>HR-специалист</div>
       </div>
       <div className={styles.list}>
-        <div className={styles.bubble}>{text}</div>
+        <div className={styles.bubble}>
+          <div className={styles.group}>{group}</div>
+          <div>{text}</div>
+        </div>
       </div>
     </div>
   )
