@@ -4,10 +4,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { APP_ID, AppRoute } from '@/const'
 import {
   useGetCategoriesQuery,
+  useGetStatBlockDataQuery,
   useGetTaskListQuery,
   useLazySendAnswerQuery
 } from '@/store/questionnaire.api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CardMsgIn from '@/components/card/CardMsgIn/CardMsgIn'
 import CardMsgOut from '@/components/card/CardMsgOut/CardMsgOut'
 import { Answer } from '@/types/common'
@@ -22,13 +23,22 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const { currentBlock, currentCategory, currentQuestion } = useAppSelector(
+  const { currentBlock, currentCategory } = useAppSelector(
     state => state.questionnaire
   )
-  const { userId } = useAppSelector(state => state.user)
+  const { userId, clientId } = useAppSelector(state => state.user)
   const [fetchSendAnswer] = useLazySendAnswerQuery()
 
-  const [indexQuestion, setIndexQuestion] = useState<number>(currentQuestion)
+  const [indexQuestion, setIndexQuestion] = useState<number>(0)
+
+  const { data: blockData } = useGetStatBlockDataQuery(
+    {
+      client_uniq_id: clientId as string,
+      user_uniq_id: userId as string,
+      app_id: APP_ID
+    },
+    { selectFromResult: ({ data }) => ({ data }) }
+  )
 
   const { data: categories } = useGetCategoriesQuery(
     {
@@ -46,6 +56,16 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
       { skip: !categories }
     )
 
+  useEffect(() => {
+    if (!blockData || !questionList) return
+
+    const findIndex = questionList.findIndex(
+      question => question.uniq_id === blockData.answers.current.uniq_id
+    )
+
+    setIndexQuestion(findIndex === -1 ? 0 : findIndex)
+  }, [questionList, blockData, dispatch])
+
   function nextQuestion() {
     switch (true) {
       case indexQuestion + 1 === questionList?.length &&
@@ -54,8 +74,8 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
         break
       case indexQuestion + 1 === questionList?.length:
         dispatch(incrementCurrentCategory())
-        refetchQuestionList()
         setIndexQuestion(0)
+        refetchQuestionList()
         break
       default:
         setIndexQuestion(i => i + 1)
@@ -83,6 +103,8 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     nextQuestion()
   }
 
+  console.log('indexQuestion', indexQuestion)
+
   return (
     <div className={clsx(styles.chat, className)}>
       <div className={styles.wrp}>
@@ -94,6 +116,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
               className={styles.msg}
             />
           )}
+
           <CardMsgOut onNoClick={hadleAnswer} onYesClick={hadleAnswer} />
         </div>
         <div className={styles.bottom}>

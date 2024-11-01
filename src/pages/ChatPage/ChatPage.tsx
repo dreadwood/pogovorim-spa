@@ -7,8 +7,7 @@ import PageLayout from '@/layout/PageLayout/PageLayout'
 import PrivacyLink from '@/components/common/PrivacyLink/PrivacyLink'
 import {
   useGetCategoriesQuery,
-  useGetStatBlockDataQuery,
-  useGetTaskListQuery
+  useGetStatBlockDataQuery
 } from '@/store/questionnaire.api'
 import { APP_ID, AppRoute } from '@/const'
 import Loading from '@/components/common/Loading/Loading'
@@ -17,15 +16,13 @@ import { useEffect } from 'react'
 import {
   setCurrentBlock,
   setCurrentBlockNum,
-  setCurrentCategory,
-  setCurrentQuestion
+  setCurrentCategory
 } from '@/store/questionnaire.slice'
 import { Navigate, useParams } from 'react-router-dom'
 
 function ChatPage(): JSX.Element {
-  const { uniqId: blockId } = useParams()
-
   const dispatch = useAppDispatch()
+  const { uniqId: blockId } = useParams()
   const { clientId, userId } = useAppSelector(state => state.user)
 
   const { data: blockData, isLoading: isLoadingBlockData } =
@@ -35,9 +32,7 @@ function ChatPage(): JSX.Element {
         user_uniq_id: userId as string,
         app_id: APP_ID
       },
-      {
-        skip: !blockId
-      }
+      { skip: !blockId }
     )
 
   const { data: categories, isLoading: isLoadingCategories } =
@@ -46,18 +41,16 @@ function ChatPage(): JSX.Element {
         block_uniq_id: blockId || '',
         app_id: APP_ID
       },
-      {
-        skip: !blockId
-      }
+      { skip: !blockId }
     )
 
-  const { data: questionList, isLoading: isLoadingQuestionList } =
-    useGetTaskListQuery(
-      {
-        category_uniq_id: blockData?.answers.current.category_uniq_id || ''
-      },
-      { skip: !blockData }
-    )
+  // const { data: questionList, isLoading: isLoadingQuestionList } =
+  //   useGetTaskListQuery(
+  //     {
+  //       category_uniq_id: blockData?.answers.current.category_uniq_id || ''
+  //     },
+  //     { skip: !blockData }
+  //   )
 
   useEffect(() => {
     if (blockData) {
@@ -73,27 +66,25 @@ function ChatPage(): JSX.Element {
         dispatch(setCurrentBlockNum(blockNum))
       }
     }
+  }, [blockId, blockData, dispatch])
 
-    if (!blockData || !categories || !questionList) return
+  // установка текущей категории
+  useEffect(() => {
+    if (!blockData || !categories) return
 
     const currentCategory = categories.findIndex(
       category =>
         category.uniq_id === blockData.answers.current.category_uniq_id
     )
 
-    const currentQuestion = questionList.findIndex(
-      question => question.uniq_id === blockData.answers.current.uniq_id
-    )
-
     dispatch(setCurrentCategory(currentCategory))
-    dispatch(setCurrentQuestion(currentQuestion))
-  }, [blockId, blockData, categories, questionList, dispatch])
+  }, [blockData, categories, dispatch])
 
   if (!userId) {
     return <Navigate to={AppRoute.Root} replace />
   }
 
-  if (isLoadingCategories || isLoadingBlockData || isLoadingQuestionList) {
+  if (isLoadingCategories || isLoadingBlockData) {
     return <Loading />
   }
 
