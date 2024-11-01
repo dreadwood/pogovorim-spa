@@ -103,7 +103,8 @@
     }
   }
   @include mobile-big {
-    justify-self: center;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 .content {
