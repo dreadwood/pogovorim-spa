@@ -33,6 +33,9 @@ const questionnaireSlice = createSlice({
     },
     setCurrentQuestion: (state, action: PayloadAction<number>) => {
       state.currentQuestion = action.payload
+    },
+    resetQuestionnaireState: () => {
+      return initialState
     }
   }
 })
@@ -42,7 +45,8 @@ export const {
   setCurrentBlockNum,
   setCurrentCategory,
   incrementCurrentCategory,
-  setCurrentQuestion
+  setCurrentQuestion,
+  resetQuestionnaireState
 } = questionnaireSlice.actions
 
 export default questionnaireSlice.reducer

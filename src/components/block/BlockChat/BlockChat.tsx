@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import styles from './BlockChat.module.scss'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
-import { APP_ID } from '@/const'
+import { APP_ID, AppRoute } from '@/const'
 import {
   useGetCategoriesQuery,
   useGetTaskListQuery,
@@ -12,6 +12,7 @@ import CardMsgIn from '@/components/card/CardMsgIn/CardMsgIn'
 import CardMsgOut from '@/components/card/CardMsgOut/CardMsgOut'
 import { Answer } from '@/types/common'
 import { incrementCurrentCategory } from '@/store/questionnaire.slice'
+import { useNavigate } from 'react-router-dom'
 
 interface BlockChatProps {
   className?: string
@@ -19,6 +20,7 @@ interface BlockChatProps {
 
 function BlockChat({ className }: BlockChatProps): JSX.Element {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const { currentBlock, currentCategory, currentQuestion } = useAppSelector(
     state => state.questionnaire
@@ -45,12 +47,19 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     )
 
   function nextQuestion() {
-    if (indexQuestion + 1 === questionList?.length) {
-      dispatch(incrementCurrentCategory())
-      refetchQuestionList()
-      setIndexQuestion(0)
-    } else {
-      setIndexQuestion(i => i + 1)
+    switch (true) {
+      case indexQuestion + 1 === questionList?.length &&
+        currentCategory + 1 === categories?.length:
+        navigate(AppRoute.Start)
+        break
+      case indexQuestion + 1 === questionList?.length:
+        dispatch(incrementCurrentCategory())
+        refetchQuestionList()
+        setIndexQuestion(0)
+        break
+      default:
+        setIndexQuestion(i => i + 1)
+        break
     }
   }
 

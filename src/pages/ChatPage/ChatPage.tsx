@@ -11,7 +11,6 @@ import {
   useGetTaskListQuery
 } from '@/store/questionnaire.api'
 import { APP_ID, AppRoute } from '@/const'
-import ErrorDialog from '@/components/common/ErrorDialog/ErrorDialog'
 import Loading from '@/components/common/Loading/Loading'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { useEffect } from 'react'
@@ -28,7 +27,6 @@ function ChatPage(): JSX.Element {
 
   const dispatch = useAppDispatch()
   const { clientId, userId } = useAppSelector(state => state.user)
-  const { currentBlock } = useAppSelector(state => state.questionnaire)
 
   const { data: blockData, isLoading: isLoadingBlockData } =
     useGetStatBlockDataQuery(
@@ -45,11 +43,11 @@ function ChatPage(): JSX.Element {
   const { data: categories, isLoading: isLoadingCategories } =
     useGetCategoriesQuery(
       {
-        block_uniq_id: currentBlock?.uniq_id || '',
+        block_uniq_id: blockId || '',
         app_id: APP_ID
       },
       {
-        skip: !!currentBlock
+        skip: !blockId
       }
     )
 
@@ -97,10 +95,6 @@ function ChatPage(): JSX.Element {
 
   if (isLoadingCategories || isLoadingBlockData || isLoadingQuestionList) {
     return <Loading />
-  }
-
-  if (!currentBlock) {
-    return <ErrorDialog msg={'Не удается получить данные блока опросника'} />
   }
 
   return (
