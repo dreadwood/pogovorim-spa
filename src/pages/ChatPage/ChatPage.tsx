@@ -68,7 +68,7 @@ function ChatPage(): JSX.Element {
   }
 
   if (!currentBlock) {
-    return <ErrorDialog msg={'Не удается данные блока опросника'} />
+    return <ErrorDialog msg={'Не удается получить данные блока опросника'} />
   }
 
   if (isLoadingCategories || isLoadingBlockData || isLoadingTaskOptionList) {
