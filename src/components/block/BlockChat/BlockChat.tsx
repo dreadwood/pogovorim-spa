@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import styles from './BlockChat.module.scss'
-import BtnGradient from '@/components/btn/BtnGradient/BtnGradient'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { APP_ID } from '@/const'
 import {
@@ -95,7 +94,6 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
               {indexOption + 1} из {taskOptionList?.length}
             </div>
           </div>
-          <BtnGradient text="Следующий вопрос" onClick={() => nextQuestion()} />
         </div>
       </div>
     </div>
