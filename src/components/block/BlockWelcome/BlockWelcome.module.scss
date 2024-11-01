@@ -129,6 +129,9 @@
   padding: 1.6rem 2rem;
   background-color: $color-white;
   border-radius: 0 1.6rem 1.6rem 1.6rem;
+  opacity: 0;
+  translate: 0 -50%;
+  animation: show-bubble 0.5s linear forwards;
   :global(.red) {
     color: $color-orange-crayola;
   }
@@ -140,6 +143,24 @@
     height: 3.8rem;
     object-fit: contain;
   }
+  &:nth-child(1) {
+    animation-delay: 0.5s;
+  }
+  &:nth-child(2) {
+    animation-delay: 2s;
+  }
+  &:nth-child(3) {
+    animation-delay: 3.5s;
+  }
+  &:nth-child(4) {
+    animation-delay: 5s;
+  }
+  &:nth-child(5) {
+    animation-delay: 6.5s;
+  }
+  &:nth-child(6) {
+    animation-delay: 8s;
+  }
 }
 .btn {
   margin-top: auto;
@@ -150,5 +171,19 @@
     margin-top: 3rem;
     margin-right: auto;
     margin-left: auto;
+  }
+}
+
+@keyframes show-bubble {
+  30% {
+    translate: 0 -20%;
+  }
+  50% {
+    translate: 0 0;
+    opacity: 0.3;
+  }
+  100% {
+    translate: 0 0;
+    opacity: 1;
   }
 }

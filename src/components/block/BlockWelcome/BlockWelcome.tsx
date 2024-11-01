@@ -78,6 +78,7 @@ interface BlockWelcomeProps {
 function BlockWelcome({ className }: BlockWelcomeProps): JSX.Element {
   const navigate = useNavigate()
   const [step, setStep] = useState<number>(0)
+
   return (
     <section className={clsx(styles.section, className)}>
       <div className={styles.wrp}>
