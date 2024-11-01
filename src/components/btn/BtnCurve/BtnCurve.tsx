@@ -3,25 +3,21 @@ import styles from './BtnCurve.module.scss'
 import Sprite from '@/components/Sprite/Sprite'
 
 interface BtnCurveProps {
-  type?: 'button' | 'submit' | 'reset'
   view?: 'arrow' | 'edit'
-  disabled?: boolean
   className?: string
-  onClick?: (evt: React.MouseEvent<HTMLButtonElement>) => void
+  isDisabled?: boolean
+  onClick?: (evt: React.MouseEvent<HTMLDivElement>) => void
 }
 
 export default function BtnCurve({
-  type = 'button',
   view = 'arrow',
-  disabled,
   onClick,
+  isDisabled,
   className
 }: BtnCurveProps): JSX.Element {
   return (
-    <button
-      className={clsx(styles.btn, className)}
-      type={type}
-      disabled={disabled}
+    <div
+      className={clsx(styles.btn, isDisabled && styles.disabled, className)}
       onClick={onClick}
     >
       <div className={styles.bg}>
@@ -33,6 +29,6 @@ export default function BtnCurve({
         )}
         {view === 'edit' && <Sprite name="pen" width="16" height="16" />}
       </div>
-    </button>
+    </div>
   )
 }

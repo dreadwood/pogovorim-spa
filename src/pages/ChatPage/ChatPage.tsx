@@ -10,7 +10,7 @@ import {
   useGetStatBlockDataQuery,
   useGetTaskListQuery
 } from '@/store/questionnaire.api'
-import { APP_ID } from '@/const'
+import { APP_ID, AppRoute } from '@/const'
 import ErrorDialog from '@/components/common/ErrorDialog/ErrorDialog'
 import Loading from '@/components/common/Loading/Loading'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
@@ -19,6 +19,7 @@ import {
   setCurrentCategory,
   setCurrentQuestion
 } from '@/store/questionnaire.slice'
+import { Navigate } from 'react-router-dom'
 
 function ChatPage(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -61,6 +62,10 @@ function ChatPage(): JSX.Element {
     dispatch(setCurrentCategory(currentCategory))
     dispatch(setCurrentQuestion(currentQuestion))
   }, [blockData, categories, taskOptionList, dispatch])
+
+  if (!userId) {
+    return <Navigate to={AppRoute.Root} replace />
+  }
 
   if (!currentBlock) {
     return <ErrorDialog msg={'Не удается данные блока опросника'} />

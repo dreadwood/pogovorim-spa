@@ -5,8 +5,9 @@ import { useGetStatBlockDataQuery } from '@/store/questionnaire.api'
 import CardBlock from '@/components/card/CardBlock/CardBlock'
 import PrivacyLink from '@/components/common/PrivacyLink/PrivacyLink'
 import Loading from '@/components/common/Loading/Loading'
-import { APP_ID } from '@/const'
+import { APP_ID, AppRoute } from '@/const'
 import { useAppSelector } from '@/hooks/reducer'
+import { Navigate } from 'react-router-dom'
 
 function StartPage(): JSX.Element {
   const { clientId, userId } = useAppSelector(state => state.user)
@@ -14,12 +15,16 @@ function StartPage(): JSX.Element {
   const { data: blockData, isLoading: isLoadingBlockData } =
     useGetStatBlockDataQuery(
       {
-        client_uniq_id: clientId as string,
-        user_uniq_id: userId as string,
+        client_uniq_id: clientId || '',
+        user_uniq_id: userId || '',
         app_id: APP_ID
       },
-      { refetchOnMountOrArgChange: true }
+      { refetchOnMountOrArgChange: true, skip: !clientId || !userId }
     )
+
+  if (!userId) {
+    return <Navigate to={AppRoute.Root} replace />
+  }
 
   if (isLoadingBlockData) {
     return <Loading />

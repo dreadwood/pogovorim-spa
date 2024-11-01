@@ -13,7 +13,6 @@ import ErrorDialog from '@/components/common/ErrorDialog/ErrorDialog'
 import { useAppDispatch } from '@/hooks/reducer'
 import { getUserLocal } from '@/services/user-local'
 import { setClientId, setUserId } from '@/store/user.slice'
-import RedirectRoute from '@/router/RedirectRoute'
 
 function App() {
   const clientId = getClientLocal()
@@ -25,15 +24,8 @@ function App() {
     { skip: !!clientId || !!userId }
   )
 
-  if (clientId && userId) {
-    dispatch(setClientId(clientId))
-
-    dispatch(setUserId(userId))
-  }
-
-  if (clientId) {
-    dispatch(setClientId(clientId))
-  }
+  if (clientId) dispatch(setClientId(clientId))
+  if (userId) dispatch(setUserId(userId))
 
   if (data) {
     dispatch(setClientId(data.uniq_id))
@@ -53,19 +45,11 @@ function App() {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
+        {/* prettier-ignore */}
         <Route path={AppRoute.Root} element={<WelcomePage />} />
-
-        <Route element={<RedirectRoute />}>
-          <Route path={AppRoute.Start} element={<StartPage />} />
-          <Route
-            path={AppRoute.Questionnaire}
-            element={<QuestionnairePage />}
-          />
-          <Route
-            path={`${AppRoute.Questions}/:uniqId`}
-            element={<ChatPage />}
-          />
-        </Route>
+        <Route path={AppRoute.Questionnaire} element={<QuestionnairePage />} />
+        <Route path={AppRoute.Start} element={<StartPage />} />
+        <Route path={`${AppRoute.Questions}/:uniqId`} element={<ChatPage />} />
       </Routes>
     </HistoryRouter>
   )

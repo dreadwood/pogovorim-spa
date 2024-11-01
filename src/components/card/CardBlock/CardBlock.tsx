@@ -64,7 +64,7 @@ export default function CardBlock({
         <div className={styles.text}>{block.description}</div>
       </div>
       <div className={styles.btnCurve}>
-        <BtnCurve disabled={isDisabled} />
+        <BtnCurve isDisabled={isDisabled} />
       </div>
     </button>
   )

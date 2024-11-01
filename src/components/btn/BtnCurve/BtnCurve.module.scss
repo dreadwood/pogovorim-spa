@@ -20,7 +20,7 @@
       color: $color-green-jungle-crayola;
     }
   }
-  &[disabled] {
+  &.disabled {
     cursor: default;
     .bg {
       color: $color-periwinkle-crayola;
