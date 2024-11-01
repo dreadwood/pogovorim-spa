@@ -4,8 +4,6 @@ export function transformTaskList(
   taskList: Task[] | undefined
 ): QuestionWithTask[] | undefined {
   return taskList?.reduce<QuestionWithTask[]>((acc, task) => {
-    console.log(task.title)
-
     const questions = task.questions.map<QuestionWithTask>(question => ({
       ...question,
       task: task.title

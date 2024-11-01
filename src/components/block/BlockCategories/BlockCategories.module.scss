@@ -18,8 +18,8 @@
     right: 0;
     background: linear-gradient(
       270deg,
-      #f6f7f8 32.61%,
-      rgb(246 247 248 / 0%) 100%
+      $color-periwinkle-crayola 32.61%,
+      rgb(255 255 255 / 0%) 100%
     );
   }
   @include tablet {
