@@ -53,17 +53,17 @@ export interface Task {
   id: number
   uniq_id: string
   title: string
-  questions: TaskQuestion[]
+  questions: Question[]
 }
 
-export interface TaskQuestion {
+export interface Question {
   id: number
   uniq_id: string
   title: string
   type: string
 }
 
-export interface TaskQuestionWithTask {
+export interface QuestionWithTask {
   id: number
   uniq_id: string
   task: string
