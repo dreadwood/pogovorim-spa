@@ -14,6 +14,7 @@ import { useAppDispatch } from '@/hooks/reducer'
 import { getUserLocal } from '@/services/user-local'
 import { setClientId, setUserId } from '@/store/user.slice'
 import FinishPage from './pages/FinishPage/FinishPage'
+import ScrollToTop from './router/ScrollToTop'
 
 function App() {
   const clientId = getClientLocal()
@@ -45,6 +46,7 @@ function App() {
 
   return (
     <HistoryRouter history={browserHistory}>
+      <ScrollToTop />
       <Routes>
         {/* prettier-ignore */}
         <Route path={AppRoute.Root} element={<WelcomePage />} />
