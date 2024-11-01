@@ -21,7 +21,6 @@
   display: flex;
   flex-grow: 1;
   justify-content: center;
-  align-items: center;
   width: 100%;
   margin: 0 auto;
 }
@@ -29,10 +28,11 @@
   flex-grow: 1;
   width: 100%;
   max-width: 132rem;
+  padding-top: 62px;
   padding-right: 4rem;
   padding-left: 4rem;
-  @include tablet {
-    padding: 2.6rem 1.8rem;
+  @media (max-height: 1000px - 1px) {
+    padding-top: 0;
   }
   @include mobile-big {
     margin-right: -1.8rem;

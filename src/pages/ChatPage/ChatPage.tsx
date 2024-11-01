@@ -44,14 +44,6 @@ function ChatPage(): JSX.Element {
       { skip: !blockId }
     )
 
-  // const { data: questionList, isLoading: isLoadingQuestionList } =
-  //   useGetTaskListQuery(
-  //     {
-  //       category_uniq_id: blockData?.answers.current.category_uniq_id || ''
-  //     },
-  //     { skip: !blockData }
-  //   )
-
   useEffect(() => {
     if (blockData) {
       let blockNum = 1

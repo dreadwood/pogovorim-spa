@@ -22,6 +22,16 @@ function StartPage(): JSX.Element {
       { refetchOnMountOrArgChange: true, skip: !clientId || !userId }
     )
 
+  if (blockData) {
+    const isNoQuestions = Object.values(blockData.blocks).every(block => {
+      return block.answers === block.option_count
+    })
+
+    if (isNoQuestions) {
+      return <Navigate to={AppRoute.Finish} replace />
+    }
+  }
+
   if (!userId) {
     return <Navigate to={AppRoute.Root} replace />
   }

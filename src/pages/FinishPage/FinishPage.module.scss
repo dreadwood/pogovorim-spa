@@ -1,0 +1,121 @@
+@import "@style/common";
+.wrp {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 4rem;
+  @include tablet {
+    padding-top: 2.4rem;
+  }
+}
+.head {
+  margin-bottom: 10rem;
+  @include tablet {
+    margin-bottom: 5rem;
+  }
+  @include mobile-big {
+    margin-bottom: 15rem;
+  }
+}
+.content {
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  align-items: end;
+}
+.illustration {
+  position: relative;
+  left: 50%;
+  width: max-content;
+  transform: translateX(-50%);
+}
+.cloudDone {
+  position: absolute;
+  top: 68px;
+  left: -116px;
+  width: 23rem;
+  height: 14.5rem;
+  object-fit: contain;
+  @include mobile-big {
+    top: 68px;
+    left: -16px;
+    width: 8.9rem;
+    height: 5.6rem;
+  }
+}
+.lady {
+  width: 47.5rem;
+  height: 79rem;
+  object-fit: contain;
+  @include mobile-big {
+    width: 27.8rem;
+    height: 46rem;
+  }
+}
+.cloudText {
+  position: absolute;
+  top: -136px;
+  right: -126px;
+  width: max-content;
+  img {
+    width: 24.1rem;
+    height: 21.4rem;
+    object-fit: contain;
+  }
+  @include mobile-big {
+    top: 0;
+    right: 0;
+    translate: 0 -100%;
+    img {
+      width: 13.3rem;
+      height: 11.5rem;
+    }
+  }
+}
+.msg {
+  position: absolute;
+  top: 6.4rem;
+  right: 4rem;
+  width: 17rem;
+  font-family: $font-default;
+  font-size: 2.2rem;
+  line-height: 3.2rem;
+  font-weight: 500;
+  text-align: center;
+  @include mobile-big {
+    top: 34px;
+    right: 16px;
+    width: 10.2rem;
+    font-size: 1.3rem;
+    line-height: 1.8rem;
+  }
+}
+.flowersLeft {
+  position: absolute;
+  bottom: 0;
+  left: -93px;
+  z-index: -1;
+  width: 34.2rem;
+  height: 27.5rem;
+  object-fit: contain;
+  @include mobile-big {
+    left: -24px;
+    width: 15rem;
+    height: 12rem;
+  }
+}
+.flowersRight {
+  position: absolute;
+  right: -68px;
+  bottom: 0;
+  z-index: -1;
+  width: 26.6rem;
+  height: 17.6rem;
+  object-fit: contain;
+  @include mobile-big {
+    right: -16px;
+    width: 13rem;
+    height: 8.6rem;
+  }
+}

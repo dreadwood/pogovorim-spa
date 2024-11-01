@@ -12,8 +12,7 @@ function PageLayout({ children, className }: PageLayoutProps): JSX.Element {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    const root = document.querySelector('#root')
-    root?.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }, [pathname])
 
   return <div className={clsx(styles.page, className)}>{children}</div>

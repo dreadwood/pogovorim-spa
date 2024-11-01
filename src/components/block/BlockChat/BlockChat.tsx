@@ -103,8 +103,6 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     nextQuestion()
   }
 
-  console.log('indexQuestion', indexQuestion)
-
   return (
     <div className={clsx(styles.chat, className)}>
       <div className={styles.wrp}>

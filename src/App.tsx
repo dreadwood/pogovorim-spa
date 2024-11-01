@@ -13,6 +13,7 @@ import ErrorDialog from '@/components/common/ErrorDialog/ErrorDialog'
 import { useAppDispatch } from '@/hooks/reducer'
 import { getUserLocal } from '@/services/user-local'
 import { setClientId, setUserId } from '@/store/user.slice'
+import FinishPage from './pages/FinishPage/FinishPage'
 
 function App() {
   const clientId = getClientLocal()
@@ -50,6 +51,7 @@ function App() {
         <Route path={AppRoute.Questionnaire} element={<QuestionnairePage />} />
         <Route path={AppRoute.Start} element={<StartPage />} />
         <Route path={`${AppRoute.Questions}/:uniqId`} element={<ChatPage />} />
+        <Route path={AppRoute.Finish} element={<FinishPage />} />
       </Routes>
     </HistoryRouter>
   )
