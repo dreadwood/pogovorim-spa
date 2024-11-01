@@ -34,9 +34,11 @@
   @media (max-height: 1000px - 1px) {
     padding-top: 0;
   }
+  @include tablet {
+    padding-top: 0;
+  }
   @include mobile-big {
-    margin-right: -1.8rem;
-    margin-left: -1.8rem;
+    padding: 0;
   }
 }
 .top {
