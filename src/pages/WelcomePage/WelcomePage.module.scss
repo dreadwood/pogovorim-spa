@@ -10,6 +10,9 @@
     padding-top: 2.4rem;
     padding-bottom: 4rem;
   }
+  @include tablet {
+    height: auto;
+  }
 }
 .head {
   margin-bottom: 14rem;
