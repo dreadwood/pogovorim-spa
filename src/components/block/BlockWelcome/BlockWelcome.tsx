@@ -134,12 +134,12 @@ function BlockWelcome({ className }: BlockWelcomeProps): JSX.Element {
           <div className={styles.btn}>
             {messages.length - 1 === step ? (
               <BtnGradient
-                text="Здорово! Как пройти опрос?"
+                text="Далее"
                 onClick={() => navigate(AppRoute.Questionnaire)}
               />
             ) : (
               <BtnGradient
-                text="Здорово! Как пройти опрос?"
+                text="Далее"
                 onClick={() => setStep(currentStep => currentStep + 1)}
               />
             )}
