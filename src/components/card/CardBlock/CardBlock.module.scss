@@ -1,11 +1,27 @@
 @import "@style/common";
 .card {
+  @include transition(box-shadow);
   position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin: 0;
   padding: 3.2rem 2.4rem 10rem 2.4rem;
+  text-align: left;
   background-color: $color-white;
+  border: 0;
   border-radius: 2.2rem;
+  &:not(.done, [disabled]):hover,
+  &:not(.done, [disabled]):focus-visible {
+    box-shadow: 2px 2px 12px 0 transparentize($color-black, 0.92);
+    cursor: pointer;
+    .title {
+      color: $color-green-jungle-crayola;
+    }
+  }
+  &[disabled] {
+    cursor: default;
+  }
   &.done {
     .status {
       display: block;
@@ -141,6 +157,7 @@
   border-radius: var(--c-block-label-radius, 1.2rem);
 }
 .title {
+  @include transition(color);
   @include text-truncate-multiline(2);
   height: 4.8rem;
   margin-top: 1.6rem;

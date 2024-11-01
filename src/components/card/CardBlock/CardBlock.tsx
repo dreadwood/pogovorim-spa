@@ -41,7 +41,11 @@ export default function CardBlock({
   }
 
   return (
-    <article className={clsx(styles.card, isDone && styles.done, className)}>
+    <button
+      className={clsx(styles.card, isDone && styles.done, className)}
+      disabled={isDisabled}
+      onClick={handleButtonClick}
+    >
       <div className={styles.status} />
       <div className={styles.top}>
         <div className={styles.progress}>
@@ -60,8 +64,8 @@ export default function CardBlock({
         <div className={styles.text}>{block.description}</div>
       </div>
       <div className={styles.btnCurve}>
-        <BtnCurve disabled={isDisabled} onClick={handleButtonClick} />
+        <BtnCurve disabled={isDisabled} />
       </div>
-    </article>
+    </button>
   )
 }
