@@ -1,4 +1,4 @@
-# Pogovorim
+# Pogovorim (vite)
 
 ```jsx
 import clsx from 'clsx'
