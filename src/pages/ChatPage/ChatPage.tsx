@@ -76,16 +76,17 @@ function ChatPage(): JSX.Element {
         <div className={styles.head}>
           <Logo />
         </div>
-
-        <div className={styles.content}>
-          <div className={styles.top}>
-            <BlockChatTop />
-          </div>
-          <div className={styles.progress}>
-            <BlockCategories />
-          </div>
-          <div className={styles.chat}>
-            <BlockChat />
+        <div className={styles.center}>
+          <div className={styles.content}>
+            <div className={styles.top}>
+              <BlockChatTop />
+            </div>
+            <div className={styles.progress}>
+              <BlockCategories />
+            </div>
+            <div className={styles.chat}>
+              <BlockChat />
+            </div>
           </div>
         </div>
 

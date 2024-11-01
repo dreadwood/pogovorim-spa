@@ -1,10 +1,10 @@
 @import "@style/common";
 .wrp {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  max-width: 124rem + 4rem + 4rem;
+  // max-width: 124rem + 4rem + 4rem;
+  min-height: 100%;
   margin: 0 auto;
   padding: 4rem 0 2.4rem 0;
   @include mobile-big {
@@ -12,40 +12,47 @@
   }
 }
 .head {
+  margin-bottom: 2rem;
+  @include mobile-big {
+    margin-bottom: 2.6rem;
+  }
+}
+.center {
   display: flex;
+  flex-grow: 1;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
 }
 .content {
   flex-grow: 1;
-  // padding: 2rem 0;
-  padding: 1.852vh 2rem;
+  width: 100%;
+  max-width: 132rem;
+  padding-right: 4rem;
+  padding-left: 4rem;
   @include tablet {
     padding: 2.6rem 1.8rem;
   }
+  @include mobile-big {
+    margin-right: -1.8rem;
+    margin-left: -1.8rem;
+  }
 }
 .top {
-  // margin-top: 5.6rem;
-  margin-top: 5.185vh;
-  @include tablet {
-    // margin-top: 2.6rem;
-    margin-top: 0;
-  }
   @include mobile-big {
     padding-right: 1.8rem;
     padding-left: 1.8rem;
   }
 }
 .progress {
-  // margin-top: 4.6rem;
-  margin-top: 4.259vh;
+  margin-top: 4rem;
   @include mobile-big {
     margin-top: 2.4rem;
   }
 }
 .chat {
-  height: 48.981vh;
-  // margin-top: 4.6rem;
-  margin-top: 4.259vh;
+  margin-top: 4rem;
   @include mobile-big {
     margin-top: 2.4rem;
   }
