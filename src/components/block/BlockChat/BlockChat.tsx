@@ -26,7 +26,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
   const { userId } = useAppSelector(state => state.user)
   const [fetchSendAnswer] = useLazySendAnswerQuery()
 
-  const [indexOption, setIndexOption] = useState<number>(currentQuestion)
+  const [indexQuestion, setIndexQuestion] = useState<number>(currentQuestion)
 
   const { data: categories } = useGetCategoriesQuery(
     {
@@ -36,7 +36,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     { selectFromResult: ({ data }) => ({ data }) }
   )
 
-  const { data: taskOptionList, refetch: refetchTaskOptionList } =
+  const { data: questionList, refetch: refetchQuestionList } =
     useGetTaskListQuery(
       {
         category_uniq_id: categories ? categories[currentCategory].uniq_id : ''
@@ -45,23 +45,23 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     )
 
   function nextQuestion() {
-    if (indexOption + 1 === taskOptionList?.length) {
+    if (indexQuestion + 1 === questionList?.length) {
       dispatch(incrementCurrentCategory())
-      refetchTaskOptionList()
-      setIndexOption(0)
+      refetchQuestionList()
+      setIndexQuestion(0)
     } else {
-      setIndexOption(i => i + 1)
+      setIndexQuestion(i => i + 1)
     }
   }
 
   async function hadleAnswer(answer: Answer) {
-    if (!taskOptionList || !taskOptionList[indexOption] || !userId) {
+    if (!questionList || !questionList[indexQuestion] || !userId) {
       console.error('Не могу отправить ответ')
       return
     }
 
     const res = await fetchSendAnswer({
-      option_uniq_id: taskOptionList[indexOption].uniq_id,
+      option_uniq_id: questionList[indexQuestion].uniq_id,
       user_uniq_id: userId,
       answer
     })
@@ -78,10 +78,10 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     <div className={clsx(styles.chat, className)}>
       <div className={styles.wrp}>
         <div className={styles.content}>
-          {taskOptionList && (
+          {questionList && (
             <CardMsgIn
-              group={taskOptionList[indexOption].task}
-              text={taskOptionList[indexOption].title}
+              group={questionList[indexQuestion].task}
+              text={questionList[indexQuestion].title}
               className={styles.msg}
             />
           )}
@@ -91,7 +91,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
           <div className={styles.progress}>
             Номер вопроса
             <div className={styles.steps}>
-              {indexOption + 1} из {taskOptionList?.length}
+              {indexQuestion + 1} из {questionList?.length}
             </div>
           </div>
         </div>

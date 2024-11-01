@@ -39,7 +39,7 @@ function ChatPage(): JSX.Element {
       app_id: APP_ID
     })
 
-  const { data: taskOptionList, isLoading: isLoadingTaskOptionList } =
+  const { data: questionList, isLoading: isLoadingQuestionList } =
     useGetTaskListQuery(
       {
         category_uniq_id: blockData?.answers.current.category_uniq_id || ''
@@ -48,20 +48,20 @@ function ChatPage(): JSX.Element {
     )
 
   useEffect(() => {
-    if (!blockData || !categories || !taskOptionList) return
+    if (!blockData || !categories || !questionList) return
 
     const currentCategory = categories.findIndex(
       category =>
         category.uniq_id === blockData.answers.current.category_uniq_id
     )
 
-    const currentQuestion = taskOptionList.findIndex(
+    const currentQuestion = questionList.findIndex(
       question => question.uniq_id === blockData.answers.current.uniq_id
     )
 
     dispatch(setCurrentCategory(currentCategory))
     dispatch(setCurrentQuestion(currentQuestion))
-  }, [blockData, categories, taskOptionList, dispatch])
+  }, [blockData, categories, questionList, dispatch])
 
   if (!userId) {
     return <Navigate to={AppRoute.Root} replace />
@@ -71,7 +71,7 @@ function ChatPage(): JSX.Element {
     return <ErrorDialog msg={'Не удается получить данные блока опросника'} />
   }
 
-  if (isLoadingCategories || isLoadingBlockData || isLoadingTaskOptionList) {
+  if (isLoadingCategories || isLoadingBlockData || isLoadingQuestionList) {
     return <Loading />
   }
 
