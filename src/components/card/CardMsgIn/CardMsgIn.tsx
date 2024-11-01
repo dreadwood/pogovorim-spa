@@ -2,15 +2,15 @@ import clsx from 'clsx'
 import styles from './CardMsgIn.module.scss'
 
 interface CardMsgInProps {
-  group: string
   text: string
+  group?: string
   isSingle?: boolean
   className?: string
 }
 
 export default function CardMsgIn({
-  group,
   text,
+  group,
   isSingle = false,
   className
 }: CardMsgInProps): JSX.Element {
@@ -25,7 +25,7 @@ export default function CardMsgIn({
       </div>
       <div className={styles.list}>
         <div className={styles.bubble}>
-          <div className={styles.group}>{group}</div>
+          {group && <div className={styles.group}>{group}</div>}
           <div>{text}</div>
         </div>
       </div>

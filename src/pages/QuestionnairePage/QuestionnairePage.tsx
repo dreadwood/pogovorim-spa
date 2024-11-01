@@ -12,14 +12,16 @@ export default function QuestionnairePage(): JSX.Element {
         <div className={styles.head}>
           <Logo />
         </div>
-        <div className={styles.content}>
-          <CardMsgIn
-            text={
-              'Прежде чем начать проходить опрос, давайте заполним небольшую анкету!'
-            }
-            isSingle={true}
-          />
-          <BlockForm className={styles.form} />
+        <div className={styles.center}>
+          <div className={styles.content}>
+            <CardMsgIn
+              text={
+                'Прежде чем начать проходить опрос, давайте заполним небольшую анкету!'
+              }
+              isSingle={true}
+            />
+            <BlockForm className={styles.form} />
+          </div>
         </div>
         <PrivacyLink className={styles.link} />
       </div>
