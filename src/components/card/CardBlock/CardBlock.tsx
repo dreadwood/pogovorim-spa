@@ -5,6 +5,8 @@ import Sprite from '@/components/Sprite/Sprite'
 import { StatBlock } from '@/types/common'
 import { useNavigate } from 'react-router-dom'
 import { AppRoute } from '@/const'
+import { useDispatch } from 'react-redux'
+import { resetQuestionnaireState } from '@/store/questionnaire.slice'
 
 interface CardBlockProps {
   block: StatBlock
@@ -22,6 +24,7 @@ export default function CardBlock({
   className
 }: CardBlockProps): JSX.Element {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const percent = Math.round(+block.percent)
   const steps = `${block.answers} из ${block.option_count}`
@@ -29,6 +32,7 @@ export default function CardBlock({
   const chartStyle = { '--p': percent } as React.CSSProperties
 
   function handleButtonClick() {
+    dispatch(resetQuestionnaireState())
     navigate(`${AppRoute.Questions}/${block.uniq_id}`)
   }
 

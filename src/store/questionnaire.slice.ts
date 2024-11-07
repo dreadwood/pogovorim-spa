@@ -3,14 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface QuestionnaireSlice {
   currentBlock: StatBlock | null
-  currentBlockNum: number
+  blockNum: number
   indexCategory: number
   indexQuestion: number
 }
 
 const initialState: QuestionnaireSlice = {
   currentBlock: null,
-  currentBlockNum: 0,
+  blockNum: 0,
   indexCategory: 0,
   indexQuestion: 0
 }
@@ -22,8 +22,8 @@ const questionnaireSlice = createSlice({
     setCurrentBlock: (state, action: PayloadAction<StatBlock>) => {
       state.currentBlock = action.payload
     },
-    setCurrentBlockNum: (state, action: PayloadAction<number>) => {
-      state.currentBlockNum = action.payload
+    setBlockNum: (state, action: PayloadAction<number>) => {
+      state.blockNum = action.payload
     },
     setIndexCategory: (state, action: PayloadAction<number>) => {
       state.indexCategory = action.payload
@@ -47,7 +47,7 @@ const questionnaireSlice = createSlice({
 
 export const {
   setCurrentBlock,
-  setCurrentBlockNum,
+  setBlockNum,
   setIndexCategory,
   incrementIndexCategory,
   decrementIndexCategory,

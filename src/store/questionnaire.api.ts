@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { BACKEND_API } from '@/const'
-import { RootState } from '.'
 import {
   IAnswerReq,
   IAnswerRes,
@@ -110,6 +109,3 @@ export const { useQueryState: useGetStatBlockDataQueryState } =
 
 export const { useQueryState: useGetCategoriesQueryState } =
   questionnaireApi.endpoints.getCategories
-
-export const selectGetDicts = (state: RootState) =>
-  state[questionnaireApi.reducerPath]

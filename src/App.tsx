@@ -15,13 +15,14 @@ import { getUserLocal } from '@/services/user-local'
 import { setClientId, setUserId } from '@/store/user.slice'
 import FinishPage from './pages/FinishPage/FinishPage'
 import ScrollToTop from './router/ScrollToTop'
+import { transformErrResponse } from './utils/api'
 
 function App() {
   const clientId = getClientLocal()
   const userId = getUserLocal()
   const dispatch = useAppDispatch()
 
-  const { data, isLoading } = useGetConfigQuery(
+  const { data, isLoading, error } = useGetConfigQuery(
     { domain: DOMAIN },
     { skip: !!clientId || !!userId }
   )
@@ -38,10 +39,9 @@ function App() {
     return <Loading />
   }
 
-  if (!data && !clientId) {
-    return (
-      <ErrorDialog msg={'Не удается получить client_id или сохранить его'} />
-    )
+  if (error) {
+    const msg = transformErrResponse(error)
+    return <ErrorDialog msg={msg} />
   }
 
   return (

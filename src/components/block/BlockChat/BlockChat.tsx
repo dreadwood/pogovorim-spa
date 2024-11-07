@@ -63,9 +63,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     isFetching: isQuestionListFetching /*, refetch: refetchQuestionList */
   } = useGetTaskListQuery(
     {
-      category_uniq_id: categories
-        ? (categories[indexCategory].uniq_id as string)
-        : ''
+      category_uniq_id: categories ? categories[indexCategory].uniq_id : ''
     },
     { skip: !categories }
   )

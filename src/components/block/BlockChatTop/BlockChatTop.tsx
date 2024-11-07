@@ -11,7 +11,7 @@ interface BlockChatTopProps {
 
 function BlockChatTop({ className }: BlockChatTopProps): JSX.Element {
   const navigate = useNavigate()
-  const { currentBlock, currentBlockNum } = useAppSelector(
+  const { currentBlock, blockNum } = useAppSelector(
     state => state.questionnaire
   )
 
@@ -28,7 +28,7 @@ function BlockChatTop({ className }: BlockChatTopProps): JSX.Element {
       </button>
       <div className={styles.name}>{currentBlock?.title}</div>
       <div className={styles.bottom}>
-        <div className={styles.label}>Блок {currentBlockNum}</div>
+        <div className={styles.label}>Блок {blockNum}</div>
         <div className={styles.category}>
           <Sprite name="graph" width="16" height="16" />
           <span>{currentBlock?.categories_count} категорий</span>

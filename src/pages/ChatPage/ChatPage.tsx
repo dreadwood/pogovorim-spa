@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { useEffect } from 'react'
 import {
   setCurrentBlock,
-  setCurrentBlockNum,
+  setBlockNum,
   setIndexCategory
 } from '@/store/questionnaire.slice'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
@@ -56,7 +56,7 @@ function ChatPage(): JSX.Element {
       // TODO: 2024-11-01 / add redirect
       if (block) {
         dispatch(setCurrentBlock(block))
-        dispatch(setCurrentBlockNum(blockNum))
+        dispatch(setBlockNum(blockNum))
       }
     }
   }, [blockId, blockData, dispatch])

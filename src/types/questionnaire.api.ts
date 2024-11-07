@@ -1,8 +1,13 @@
 import { Answer, Block, Category, Config, StatBlockData, Task } from './common'
 
-interface Respons {
+interface Response {
   success: boolean
   message: string | boolean
+}
+
+export interface ErrorRes {
+  success: false
+  message: string
 }
 
 export interface IBlockListReq {
@@ -10,7 +15,7 @@ export interface IBlockListReq {
   app_id: number
 }
 
-export interface IBlockListRes extends Respons {
+export interface IBlockListRes extends Response {
   data?: Block[]
 }
 
@@ -20,7 +25,7 @@ export interface IStatBlockListReq {
   app_id: number
 }
 
-export interface IStatBlockListRes extends Respons {
+export interface IStatBlockListRes extends Response {
   data?: StatBlockData
 }
 
@@ -37,7 +42,7 @@ export interface IUserIdReq {
   department: string
 }
 
-export interface IUserIdRes extends Respons {
+export interface IUserIdRes extends Response {
   data?: {
     user_uniq_id: string
   }
@@ -48,7 +53,7 @@ export interface ICategoriesReq {
   app_id: number
 }
 
-export interface ICategoriesRes extends Respons {
+export interface ICategoriesRes extends Response {
   data?: Category[]
 }
 
@@ -56,7 +61,7 @@ export interface ITaskListReq {
   category_uniq_id: string
 }
 
-export interface ITaskListRes extends Respons {
+export interface ITaskListRes extends Response {
   data?: Task[]
 }
 
@@ -66,7 +71,7 @@ export interface IAnswerReq {
   answer: Answer
 }
 
-export interface IAnswerRes extends Respons {
+export interface IAnswerRes extends Response {
   data?: {
     success: true
   }
@@ -76,6 +81,6 @@ export interface IConfigReq {
   domain: string
 }
 
-export interface IConfigRes extends Respons {
+export interface IConfigRes extends Response {
   data?: Config
 }
