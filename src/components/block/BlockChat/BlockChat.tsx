@@ -3,8 +3,8 @@ import styles from './BlockChat.module.scss'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { APP_ID, AppRoute } from '@/const'
 import {
-  useGetCategoriesQuery,
-  useGetStatBlockDataQuery,
+  useGetCategoriesQueryState,
+  useGetStatBlockDataQueryState,
   useGetTaskListQuery,
   useLazySendAnswerQuery
 } from '@/store/questionnaire.api'
@@ -12,8 +12,13 @@ import { useEffect, useState } from 'react'
 import CardMsgIn from '@/components/card/CardMsgIn/CardMsgIn'
 import CardMsgOut from '@/components/card/CardMsgOut/CardMsgOut'
 import { Answer } from '@/types/common'
-import { incrementCurrentCategory } from '@/store/questionnaire.slice'
+import {
+  decrementIndexCategory,
+  incrementIndexCategory,
+  setIndexQuestion
+} from '@/store/questionnaire.slice'
 import { useNavigate } from 'react-router-dom'
+import BtnGradient from '@/components/btn/BtnGradient/BtnGradient'
 
 interface BlockChatProps {
   className?: string
@@ -23,62 +28,99 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const { currentBlock, currentCategory } = useAppSelector(
+  const { currentBlock, indexCategory, indexQuestion } = useAppSelector(
     state => state.questionnaire
   )
   const { userId, clientId } = useAppSelector(state => state.user)
-  const [fetchSendAnswer] = useLazySendAnswerQuery()
+  const [fetchSendAnswer, { isLoading: isLoadingAnswer }] =
+    useLazySendAnswerQuery()
 
-  const [indexQuestion, setIndexQuestion] = useState<number>(0)
+  const [isFistRender, setIsFistRender] = useState<boolean>(true)
 
-  const { data: blockData } = useGetStatBlockDataQuery(
+  const { data: blockData } = useGetStatBlockDataQueryState(
     {
       client_uniq_id: clientId as string,
       user_uniq_id: userId as string,
       app_id: APP_ID
     },
-    { selectFromResult: ({ data }) => ({ data }) }
+    {
+      skip: !clientId || !userId
+    }
   )
 
-  const { data: categories } = useGetCategoriesQuery(
+  const { data: categories } = useGetCategoriesQueryState(
     {
-      block_uniq_id: currentBlock?.uniq_id || '',
+      block_uniq_id: currentBlock?.uniq_id as string,
       app_id: APP_ID
     },
-    { selectFromResult: ({ data }) => ({ data }) }
+    {
+      skip: !currentBlock
+    }
   )
 
-  const { data: questionList, refetch: refetchQuestionList } =
-    useGetTaskListQuery(
-      {
-        category_uniq_id: categories ? categories[currentCategory].uniq_id : ''
-      },
-      { skip: !categories }
-    )
+  const {
+    data: questionList,
+    isFetching: isQuestionListFetching /*, refetch: refetchQuestionList */
+  } = useGetTaskListQuery(
+    {
+      category_uniq_id: categories
+        ? (categories[indexCategory].uniq_id as string)
+        : ''
+    },
+    { skip: !categories }
+  )
+
+  const [disabledPrevBtn, setDisabledPrevBtn] = useState<boolean>(true)
 
   useEffect(() => {
-    if (!blockData || !questionList) return
+    if (!blockData || !questionList || !isFistRender) return
 
-    const findIndex = questionList.findIndex(
+    const index = questionList.findIndex(
       question => question.uniq_id === blockData.answers.current.uniq_id
     )
 
-    setIndexQuestion(findIndex === -1 ? 0 : findIndex)
-  }, [questionList, blockData, dispatch])
+    dispatch(setIndexQuestion(index === -1 ? 0 : index))
+    setIsFistRender(false)
+  }, [questionList, blockData, isFistRender, dispatch])
+
+  useEffect(() => {
+    setDisabledPrevBtn(indexQuestion === 0 && indexCategory === 0)
+  }, [indexQuestion, indexCategory])
+
+  function previousQuestion() {
+    switch (true) {
+      case indexQuestion === 1 && indexCategory === 0: {
+        dispatch(setIndexQuestion(indexQuestion - 1))
+        break
+      }
+      case indexQuestion === 0 && indexCategory > 0: {
+        if (!categories) {
+          return
+        }
+        const prevIndexQuestion =
+          categories[indexCategory - 1].questions_count - 1
+        dispatch(decrementIndexCategory(prevIndexQuestion))
+        break
+      }
+      case indexQuestion > 0: {
+        dispatch(setIndexQuestion(indexQuestion - 1))
+        break
+      }
+    }
+  }
 
   function nextQuestion() {
     switch (true) {
       case indexQuestion + 1 === questionList?.length &&
-        currentCategory + 1 === categories?.length:
+        indexCategory + 1 === categories?.length:
         navigate(AppRoute.Start)
         break
       case indexQuestion + 1 === questionList?.length:
-        dispatch(incrementCurrentCategory())
-        setIndexQuestion(0)
-        refetchQuestionList()
+        dispatch(incrementIndexCategory())
+        // refetchQuestionList()
         break
       default:
-        setIndexQuestion(i => i + 1)
+        dispatch(setIndexQuestion(indexQuestion + 1))
         break
     }
   }
@@ -89,15 +131,19 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
       return
     }
 
-    const res = await fetchSendAnswer({
-      option_uniq_id: questionList[indexQuestion].uniq_id,
-      user_uniq_id: userId,
-      answer
-    })
+    try {
+      const data = await fetchSendAnswer({
+        option_uniq_id: questionList[indexQuestion].uniq_id,
+        user_uniq_id: userId,
+        answer
+      })
 
-    if (!res.isSuccess) {
-      console.error('Произошла ошибка при отправке ответа')
-      return
+      if (!data.isSuccess) {
+        console.error('Произошла ошибка при отправке ответа')
+        return
+      }
+    } catch (err) {
+      console.error('Произошла ошибка при отправке ответа', err)
     }
 
     nextQuestion()
@@ -107,7 +153,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     <div className={clsx(styles.chat, className)}>
       <div className={styles.wrp}>
         <div className={styles.content}>
-          {questionList && (
+          {questionList && !isQuestionListFetching && (
             <CardMsgIn
               group={questionList[indexQuestion].task}
               text={questionList[indexQuestion].title}
@@ -115,7 +161,12 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
             />
           )}
 
-          <CardMsgOut onNoClick={hadleAnswer} onYesClick={hadleAnswer} />
+          <CardMsgOut
+            onNoClick={hadleAnswer}
+            onYesClick={hadleAnswer}
+            // disabledBtns={disabledBtns || isLoadingAnswer}
+            disabledBtns={isLoadingAnswer || isQuestionListFetching}
+          />
         </div>
         <div className={styles.bottom}>
           <div className={styles.progress}>
@@ -124,6 +175,11 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
               {indexQuestion + 1} из {questionList?.length}
             </div>
           </div>
+          <BtnGradient
+            text="Предыдущий вопрос"
+            disabled={disabledPrevBtn}
+            onClick={previousQuestion}
+          />
         </div>
       </div>
     </div>

@@ -5,12 +5,14 @@ import { Answer } from '@/types/common'
 interface CardMsgOutProps {
   onYesClick: (answer: Answer) => void
   onNoClick: (answer: Answer) => void
+  disabledBtns: boolean
   className?: string
 }
 
 export default function CardMsgOut({
   onYesClick,
   onNoClick,
+  disabledBtns,
   className
 }: CardMsgOutProps): JSX.Element {
   return (
@@ -24,11 +26,16 @@ export default function CardMsgOut({
       <div className={styles.list}>
         <button
           className={clsx(styles.answer, styles.accent)}
+          disabled={disabledBtns}
           onClick={() => onYesClick('yes')}
         >
           <span>Да</span>
         </button>
-        <button className={styles.answer} onClick={() => onNoClick('no')}>
+        <button
+          className={styles.answer}
+          disabled={disabledBtns}
+          onClick={() => onNoClick('no')}
+        >
           <span>Нет</span>
         </button>
       </div>

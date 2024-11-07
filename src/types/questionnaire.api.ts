@@ -1,14 +1,17 @@
 import { Answer, Block, Category, Config, StatBlockData, Task } from './common'
 
+interface Respons {
+  success: boolean
+  message: string | boolean
+}
+
 export interface IBlockListReq {
   client_uniq_id: string
   app_id: number
 }
 
-export interface IBlockListRes {
-  success: boolean
+export interface IBlockListRes extends Respons {
   data?: Block[]
-  message: string | boolean
 }
 
 export interface IStatBlockListReq {
@@ -17,10 +20,8 @@ export interface IStatBlockListReq {
   app_id: number
 }
 
-export interface IStatBlockListRes {
-  success: boolean
+export interface IStatBlockListRes extends Respons {
   data?: StatBlockData
-  message: string | boolean
 }
 
 export interface IUserIdReq {
@@ -36,12 +37,10 @@ export interface IUserIdReq {
   department: string
 }
 
-export interface IUserIdRes {
-  success: boolean
+export interface IUserIdRes extends Respons {
   data?: {
     user_uniq_id: string
   }
-  message: boolean
 }
 
 export interface ICategoriesReq {
@@ -49,20 +48,16 @@ export interface ICategoriesReq {
   app_id: number
 }
 
-export interface ICategoriesRes {
-  success: boolean
+export interface ICategoriesRes extends Respons {
   data?: Category[]
-  message: boolean
 }
 
 export interface ITaskListReq {
   category_uniq_id: string
 }
 
-export interface ITaskListRes {
-  success: boolean
+export interface ITaskListRes extends Respons {
   data?: Task[]
-  message: boolean
 }
 
 export interface IAnswerReq {
@@ -71,20 +66,16 @@ export interface IAnswerReq {
   answer: Answer
 }
 
-export interface IAnswerRes {
-  success: boolean
+export interface IAnswerRes extends Respons {
   data?: {
     success: true
   }
-  message: boolean
 }
 
 export interface IConfigReq {
   domain: string
 }
 
-export interface IConfigRes {
-  success: boolean
+export interface IConfigRes extends Respons {
   data?: Config
-  message: boolean
 }

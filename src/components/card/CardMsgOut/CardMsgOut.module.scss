@@ -117,6 +117,9 @@
     position: relative;
     z-index: 1;
   }
+  &[disabled] {
+    background-color: tomato;
+  }
   @include tablet {
     width: 10rem;
     height: 6rem;

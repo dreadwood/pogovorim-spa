@@ -105,5 +105,11 @@ export const {
   useGetConfigQuery
 } = questionnaireApi
 
+export const { useQueryState: useGetStatBlockDataQueryState } =
+  questionnaireApi.endpoints.getStatBlockData
+
+export const { useQueryState: useGetCategoriesQueryState } =
+  questionnaireApi.endpoints.getCategories
+
 export const selectGetDicts = (state: RootState) =>
   state[questionnaireApi.reducerPath]

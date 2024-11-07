@@ -8,18 +8,26 @@ import Loading from '@/components/common/Loading/Loading'
 import { APP_ID, AppRoute } from '@/const'
 import { useAppSelector } from '@/hooks/reducer'
 import { Navigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { resetQuestionnaireState } from '@/store/questionnaire.slice'
 
 function StartPage(): JSX.Element {
+  const dispatch = useDispatch()
+  dispatch(resetQuestionnaireState())
+
   const { clientId, userId } = useAppSelector(state => state.user)
 
   const { data: blockData, isLoading: isLoadingBlockData } =
     useGetStatBlockDataQuery(
       {
-        client_uniq_id: clientId || '',
-        user_uniq_id: userId || '',
+        client_uniq_id: clientId as string,
+        user_uniq_id: userId as string,
         app_id: APP_ID
       },
-      { refetchOnMountOrArgChange: true, skip: !clientId || !userId }
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !clientId || !userId
+      }
     )
 
   if (blockData) {

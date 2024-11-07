@@ -16,11 +16,12 @@ import { useEffect } from 'react'
 import {
   setCurrentBlock,
   setCurrentBlockNum,
-  setCurrentCategory
+  setIndexCategory
 } from '@/store/questionnaire.slice'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
 function ChatPage(): JSX.Element {
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { uniqId: blockId } = useParams()
   const { clientId, userId } = useAppSelector(state => state.user)
@@ -32,16 +33,16 @@ function ChatPage(): JSX.Element {
         user_uniq_id: userId as string,
         app_id: APP_ID
       },
-      { skip: !blockId }
+      { refetchOnMountOrArgChange: true, skip: !blockId }
     )
 
   const { data: categories, isLoading: isLoadingCategories } =
     useGetCategoriesQuery(
       {
-        block_uniq_id: blockId || '',
+        block_uniq_id: blockId || '1',
         app_id: APP_ID
       },
-      { skip: !blockId }
+      { refetchOnMountOrArgChange: true, skip: !blockId }
     )
 
   useEffect(() => {
@@ -64,13 +65,18 @@ function ChatPage(): JSX.Element {
   useEffect(() => {
     if (!blockData || !categories) return
 
-    const currentCategory = categories.findIndex(
+    const index = categories.findIndex(
       category =>
         category.uniq_id === blockData.answers.current.category_uniq_id
     )
 
-    dispatch(setCurrentCategory(currentCategory))
-  }, [blockData, categories, dispatch])
+    if (index === -1) {
+      navigate(AppRoute.Root, { replace: true })
+      return
+    }
+
+    dispatch(setIndexCategory(index))
+  }, [blockData, categories, dispatch, navigate])
 
   if (!userId) {
     return <Navigate to={AppRoute.Root} replace />

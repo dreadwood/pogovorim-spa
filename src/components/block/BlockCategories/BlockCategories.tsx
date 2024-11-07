@@ -15,17 +15,18 @@ interface BlockCategoriesProps {
 }
 
 function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
-  const { currentBlock, currentCategory } = useAppSelector(
+  const { currentBlock, indexCategory } = useAppSelector(
     state => state.questionnaire
   )
 
   const { data: categories } = useGetCategoriesQuery(
     {
-      block_uniq_id: currentBlock?.uniq_id || '',
+      block_uniq_id: currentBlock?.uniq_id as string,
       app_id: APP_ID
     },
     {
-      selectFromResult: ({ data }) => ({ data })
+      selectFromResult: ({ data }) => ({ data }),
+      skip: !currentBlock
     }
   )
 
@@ -38,7 +39,7 @@ function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
     if (!swiperContainerRef.current) return
 
     if (swiperRef.current) {
-      swiperRef.current.slideTo(currentCategory)
+      swiperRef.current.slideTo(indexCategory)
       return
     }
 
@@ -47,7 +48,7 @@ function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
       mousewheel: {
         forceToAxis: true
       },
-      initialSlide: currentCategory,
+      initialSlide: indexCategory,
       spaceBetween: 12,
       grabCursor: true,
       slidesPerView: 'auto',
@@ -65,7 +66,7 @@ function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
         }
       }
     })
-  }, [currentCategory])
+  }, [indexCategory])
 
   return (
     <div className={clsx(styles.list, className)} ref={swiperContainerRef}>
@@ -77,8 +78,8 @@ function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
               key={category.uniq_id}
             >
               <CardCategory
-                isActv={currentCategory === i}
-                isDone={currentCategory > i}
+                isActv={indexCategory === i}
+                isDone={indexCategory > i}
                 category={category}
                 number={i + 1}
               />

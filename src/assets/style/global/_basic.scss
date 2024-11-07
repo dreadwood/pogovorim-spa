@@ -42,7 +42,9 @@ svg {
 button {
   font: inherit;
   color: inherit;
-  cursor: pointer;
+  &:not([disabled]) {
+    cursor: pointer;
+  }
 }
 #root {
   display: flex;

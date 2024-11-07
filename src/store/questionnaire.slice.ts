@@ -4,15 +4,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface QuestionnaireSlice {
   currentBlock: StatBlock | null
   currentBlockNum: number
-  currentCategory: number
-  currentQuestion: number
+  indexCategory: number
+  indexQuestion: number
 }
 
 const initialState: QuestionnaireSlice = {
   currentBlock: null,
   currentBlockNum: 0,
-  currentCategory: 0,
-  currentQuestion: 0
+  indexCategory: 0,
+  indexQuestion: 0
 }
 
 const questionnaireSlice = createSlice({
@@ -25,14 +25,19 @@ const questionnaireSlice = createSlice({
     setCurrentBlockNum: (state, action: PayloadAction<number>) => {
       state.currentBlockNum = action.payload
     },
-    setCurrentCategory: (state, action: PayloadAction<number>) => {
-      state.currentCategory = action.payload
+    setIndexCategory: (state, action: PayloadAction<number>) => {
+      state.indexCategory = action.payload
     },
-    incrementCurrentCategory: state => {
-      state.currentCategory = state.currentCategory + 1
+    incrementIndexCategory: state => {
+      state.indexCategory = state.indexCategory + 1
+      state.indexQuestion = 0
     },
-    setCurrentQuestion: (state, action: PayloadAction<number>) => {
-      state.currentQuestion = action.payload
+    decrementIndexCategory: (state, action: PayloadAction<number>) => {
+      state.indexCategory = state.indexCategory - 1
+      state.indexQuestion = action.payload
+    },
+    setIndexQuestion: (state, action: PayloadAction<number>) => {
+      state.indexQuestion = action.payload
     },
     resetQuestionnaireState: () => {
       return initialState
@@ -43,9 +48,10 @@ const questionnaireSlice = createSlice({
 export const {
   setCurrentBlock,
   setCurrentBlockNum,
-  setCurrentCategory,
-  incrementCurrentCategory,
-  setCurrentQuestion,
+  setIndexCategory,
+  incrementIndexCategory,
+  decrementIndexCategory,
+  setIndexQuestion,
   resetQuestionnaireState
 } = questionnaireSlice.actions
 

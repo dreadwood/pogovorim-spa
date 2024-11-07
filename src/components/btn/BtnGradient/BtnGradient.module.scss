@@ -33,9 +33,11 @@
     position: relative;
   }
   &[disabled] {
-    color: $color-manatee;
+    // color: $color-manatee;
     background-color: $color-gridperlevy;
-    cursor: auto;
+    &::before {
+      opacity: 0.5;
+    }
   }
   &:not([disabled]):hover,
   &:not([disabled]):focus-visible {
