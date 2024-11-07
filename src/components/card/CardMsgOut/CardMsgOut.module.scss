@@ -79,7 +79,7 @@
   }
 }
 .answer {
-  @include transition(color, background, opacity);
+  @include transition(color, opacity);
   position: relative;
   display: grid;
   flex-shrink: 0;
@@ -95,7 +95,8 @@
   font-weight: 700;
   text-align: center;
   color: $color-gray-020;
-  background: var(--msg-bubble-bg, #{$color-periwinkle-crayola});
+  background-color: var(--msg-bubble-bg, #{$color-periwinkle-crayola});
+  // background-color: transparentize($color-cadet-blue-crayola, 0.8);
   border: 0;
   border-radius: 2.2rem 0 2.2rem 2.2rem;
   &:not([disabled]):hover {
@@ -118,7 +119,8 @@
     z-index: 1;
   }
   &[disabled] {
-    background-color: tomato;
+    color: transparentize($color-gray-020, 0.5);
+    // background-color: transparentize($color-cadet-blue-crayola, 0.8);
   }
   @include tablet {
     width: 10rem;

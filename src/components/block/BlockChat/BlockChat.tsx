@@ -32,7 +32,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     state => state.questionnaire
   )
   const { userId, clientId } = useAppSelector(state => state.user)
-  const [fetchSendAnswer, { isLoading: isLoadingAnswer }] =
+  const [fetchSendAnswer, { isFetching: isFetchingAnswer }] =
     useLazySendAnswerQuery()
 
   const [isFistRender, setIsFistRender] = useState<boolean>(true)
@@ -163,7 +163,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
             onNoClick={hadleAnswer}
             onYesClick={hadleAnswer}
             // disabledBtns={disabledBtns || isLoadingAnswer}
-            disabledBtns={isLoadingAnswer || isQuestionListFetching}
+            disabledBtns={isFetchingAnswer || isQuestionListFetching}
           />
         </div>
         <div className={styles.bottom}>
