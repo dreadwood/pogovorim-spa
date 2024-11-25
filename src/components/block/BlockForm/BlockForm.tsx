@@ -172,7 +172,7 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
       </fieldset>
 
       <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Трудовая деятельность</legend>
+        <legend className={styles.legend}>Отдел</legend>
         <div className={styles.grid}>
           <div className={styles.select}>
             <FormSelect
