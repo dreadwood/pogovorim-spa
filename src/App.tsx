@@ -17,7 +17,7 @@ import FinishPage from '@/pages/FinishPage/FinishPage'
 import ScrollToTop from '@/router/ScrollToTop'
 import { transformConfigView, transformErrResponse } from '@/utils/api'
 import { getDomain } from '@/utils/common'
-import { updateView } from './store/view.slice'
+import { setAppId, updateView } from './store/view.slice'
 
 function App() {
   const domain = getDomain()
@@ -28,17 +28,19 @@ function App() {
 
   console.log(clientId, userId)
 
-  const { data, isLoading, error } = useGetConfigQuery(
-    { domain: domain || TEST_DOMAIN },
-    { skip: !!clientId || !!userId }
-  )
+  const { data, isLoading, error } = useGetConfigQuery({
+    domain: domain || TEST_DOMAIN
+  })
 
   if (clientId) dispatch(setClientId(clientId))
   if (userId) dispatch(setUserId(userId))
 
   if (data) {
     const configView = transformConfigView(data.config)
+    console.log(configView)
+
     dispatch(updateView(configView))
+    dispatch(setAppId(data.apps[0]?.id || 0))
 
     dispatch(setClientId(data.uniq_id))
     setClientLocal(data.uniq_id)

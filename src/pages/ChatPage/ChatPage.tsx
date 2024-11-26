@@ -9,7 +9,7 @@ import {
   useGetCategoriesQuery,
   useGetStatBlockDataQuery
 } from '@/store/questionnaire.api'
-import { APP_ID, AppRoute } from '@/const'
+import { AppRoute } from '@/const'
 import Loading from '@/components/common/Loading/Loading'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { useEffect } from 'react'
@@ -24,14 +24,16 @@ function ChatPage(): JSX.Element {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { uniqId: blockId } = useParams()
+
   const { clientId, userId } = useAppSelector(state => state.user)
+  const { appId } = useAppSelector(state => state.view)
 
   const { data: blockData, isLoading: isLoadingBlockData } =
     useGetStatBlockDataQuery(
       {
         client_uniq_id: clientId as string,
         user_uniq_id: userId as string,
-        app_id: APP_ID
+        app_id: appId
       },
       { refetchOnMountOrArgChange: true, skip: !blockId }
     )
@@ -40,7 +42,7 @@ function ChatPage(): JSX.Element {
     useGetCategoriesQuery(
       {
         block_uniq_id: blockId || '1',
-        app_id: APP_ID
+        app_id: appId
       },
       { refetchOnMountOrArgChange: true, skip: !blockId }
     )

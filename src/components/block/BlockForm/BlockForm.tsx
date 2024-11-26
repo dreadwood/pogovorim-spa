@@ -9,7 +9,7 @@ import {
   useGetConfigQuery,
   useLazyGetUserIdQuery
 } from '@/store/questionnaire.api'
-import { APP_ID, AppRoute, TEST_DOMAIN } from '@/const'
+import { AppRoute, TEST_DOMAIN } from '@/const'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { setUserId } from '@/store/user.slice'
@@ -56,6 +56,7 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
   const domain = getDomain()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const { appId } = useAppSelector(state => state.view)
 
   const { data } = useGetConfigQuery({
     domain: domain || TEST_DOMAIN
@@ -81,7 +82,7 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
 
     const res = await fetchGetUserId({
       client_uniq_id: clientId || '',
-      app_id: APP_ID,
+      app_id: appId,
       email: email,
       first_name: firstName,
       second_name: secondName,

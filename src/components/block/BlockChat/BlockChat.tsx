@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import styles from './BlockChat.module.scss'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
-import { APP_ID, AppRoute } from '@/const'
+import { AppRoute } from '@/const'
 import {
   useGetCategoriesQueryState,
   useGetStatBlockDataQueryState,
@@ -31,6 +31,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
   const { currentBlock, indexCategory, indexQuestion } = useAppSelector(
     state => state.questionnaire
   )
+  const { appId } = useAppSelector(state => state.view)
   const { userId, clientId } = useAppSelector(state => state.user)
   const [fetchSendAnswer, { isFetching: isFetchingAnswer }] =
     useLazySendAnswerQuery()
@@ -41,7 +42,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
     {
       client_uniq_id: clientId as string,
       user_uniq_id: userId as string,
-      app_id: APP_ID
+      app_id: appId
     },
     {
       skip: !clientId || !userId
@@ -51,7 +52,7 @@ function BlockChat({ className }: BlockChatProps): JSX.Element {
   const { data: categories } = useGetCategoriesQueryState(
     {
       block_uniq_id: currentBlock?.uniq_id as string,
-      app_id: APP_ID
+      app_id: appId
     },
     {
       skip: !currentBlock

@@ -13,7 +13,7 @@ function Logo({ className }: LogoProps): JSX.Element {
 
   return (
     <Link className={clsx(styles.logo, className)} to={AppRoute.Root}>
-      <img src={logo} width={121} height={36} alt="" />
+      <img src={`/img/logo/${logo}`} width={121} height={36} alt="" />
     </Link>
   )
 }

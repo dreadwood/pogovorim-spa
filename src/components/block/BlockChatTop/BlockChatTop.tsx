@@ -30,7 +30,7 @@ function BlockChatTop({ className }: BlockChatTopProps): JSX.Element {
       <div className={styles.bottom}>
         <div className={styles.label}>Блок {blockNum}</div>
         <div className={styles.category}>
-          <Sprite name="graph" width="16" height="16" />
+          <Sprite name="graph-fill" width="16" height="16" />
           <span>{currentBlock?.categories_count} категорий</span>
         </div>
       </div>

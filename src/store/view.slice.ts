@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ViewSlice {
+  appId: number
   logo: string
   acc_color_1: string
   acc_color_2: string
@@ -10,9 +11,10 @@ export interface ViewSlice {
 }
 
 const initialState: ViewSlice = {
-  logo: '/img/logo-pogovorim.svg',
+  appId: 0,
+  logo: 'pogovorim.svg',
   acc_color_1: '#3eb0a1', // $color-green-jungle-crayola
-  acc_color_2: '#eef9f9', // $color-periwinkle-crayola
+  acc_color_2: '#57c4b6', // $color-moderate-aquamarine
   seo_title: 'Поговорим',
   seo_description: '',
   session_fields_require: 'yes'
@@ -23,14 +25,14 @@ const viewSlice = createSlice({
   initialState,
   reducers: {
     updateView: (state, action: PayloadAction<Partial<ViewSlice>>) => {
-      state = {
-        ...state,
-        ...action.payload
-      }
+      Object.assign(state, action.payload)
+    },
+    setAppId: (state, action: PayloadAction<number>) => {
+      state.appId = action.payload
     }
   }
 })
 
-export const { updateView } = viewSlice.actions
+export const { updateView, setAppId } = viewSlice.actions
 
 export default viewSlice.reducer

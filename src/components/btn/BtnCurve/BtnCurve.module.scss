@@ -33,7 +33,8 @@
 .bg {
   width: 100%;
   height: 100%;
-  color: $color-green-jungle-crayola;
+  // color: $color-green-jungle-crayola;
+  color: var(--acc-color, #{$acc-color-1});
   svg {
     width: 100%;
     height: 100%;

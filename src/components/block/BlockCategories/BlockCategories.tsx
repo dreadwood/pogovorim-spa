@@ -7,7 +7,6 @@ import Sprite from '@/components/Sprite/Sprite'
 import styles from './BlockCategories.module.scss'
 import '/node_modules/swiper/swiper.min.css'
 import { useGetCategoriesQuery } from '@/store/questionnaire.api'
-import { APP_ID } from '@/const'
 import { useAppSelector } from '@/hooks/reducer'
 
 interface BlockCategoriesProps {
@@ -18,11 +17,12 @@ function BlockCategories({ className }: BlockCategoriesProps): JSX.Element {
   const { currentBlock, indexCategory } = useAppSelector(
     state => state.questionnaire
   )
+  const { appId } = useAppSelector(state => state.view)
 
   const { data: categories } = useGetCategoriesQuery(
     {
       block_uniq_id: currentBlock?.uniq_id as string,
-      app_id: APP_ID
+      app_id: appId
     },
     {
       selectFromResult: ({ data }) => ({ data }),

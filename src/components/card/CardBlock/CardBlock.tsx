@@ -50,7 +50,7 @@ export default function CardBlock({
           <div className={styles.steps}>{steps}</div>
         </div>
         <div className={styles.count}>
-          <Sprite name="graph" width="32" height="32" />
+          <Sprite name="graph-fill" width="32" height="32" />
           <span>{block.categories_count} категорий</span>
         </div>
       </div>

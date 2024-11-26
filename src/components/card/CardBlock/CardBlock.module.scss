@@ -16,7 +16,8 @@
     box-shadow: 2px 2px 12px 0 transparentize($color-black, 0.92);
     cursor: pointer;
     .title {
-      color: $color-green-jungle-crayola;
+      // color: $color-green-jungle-crayola;
+      color: var(--acc-color-additional, #{$acc-color-2});
     }
   }
   &[disabled] {
@@ -27,7 +28,8 @@
       display: block;
     }
     .chart {
-      --c: var(--c-block-chart-done-bg, #{$color-green-jungle-crayola});
+      // --c: var(--c-block-chart-done-bg, #{$color-green-jungle-crayola});
+      --c: var(--acc-color, #{$acc-color-1});
     }
     .percent {
       color: var(--c-block-percent-color, #{$color-green-jungle-crayola});
@@ -81,7 +83,8 @@
 .chart {
   --p: 20;
   --b: 0.4rem;
-  --c: var(--c-block-chart-bg, #{$color-green-jungle-crayola});
+  // --c: var(--c-block-chart-bg, #{$color-green-jungle-crayola});
+  --c: var(--acc-color, #{$acc-color-1});
   position: absolute;
   inset: 0;
   animation: pie-animation 1s 0.5s both;
@@ -138,7 +141,8 @@
   svg {
     width: 3.2rem;
     height: 3.2rem;
-    fill: var(--c-block-icon-pie, #{$color-green-jungle-crayola});
+    // fill: var(--c-block-icon-pie, #{$color-green-jungle-crayola});
+    fill: var(--acc-color-additional, #{$acc-color-2});
   }
 }
 .content {
