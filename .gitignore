@@ -9,7 +9,6 @@ lerna-debug.log*
 
 node_modules
 temp
-dist
 dist-ssr
 *.local
 
@@ -25,7 +24,7 @@ dist-ssr
 *.sw?
 
 # build
-dist*
+# dist*
 build.zip
 
 # environment
