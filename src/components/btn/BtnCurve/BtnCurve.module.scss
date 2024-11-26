@@ -23,7 +23,8 @@
   &.disabled {
     cursor: default;
     .bg {
-      color: $color-periwinkle-crayola;
+      // color: $color-periwinkle-crayola;
+      color: var(--page-bg, #{$color-periwinkle-crayola});
     }
     .icon {
       color: $color-cadet-blue-crayola;

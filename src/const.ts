@@ -1,8 +1,8 @@
 export const BACKEND_API = 'https://api.pogb2b.ru/api'
 // export const APP_ID = 1
 // export const TEST_DOMAIN = 't-bank'
-export const TEST_DOMAIN = 'shkulev'
-// export const TEST_DOMAIN = 'vitacore'
+// export const TEST_DOMAIN = 'shkulev'
+export const TEST_DOMAIN = 'vitacore'
 
 export enum AppRoute {
   Root = '/',
