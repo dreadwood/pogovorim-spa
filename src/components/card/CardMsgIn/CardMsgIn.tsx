@@ -20,7 +20,7 @@ export default function CardMsgIn({
         <img src="/img/userpic-frank.png" width={60} height={60} alt="" />
       </div>
       <div className={styles.top}>
-        <div className={styles.name}>Фрэнк Ансвер</div>
+        <div className={styles.name}>Федя Ответов</div>
         <div className={styles.spec}>HR-специалист</div>
       </div>
       <div className={styles.list}>

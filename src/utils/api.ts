@@ -1,4 +1,5 @@
-import { Task, QuestionWithTask } from '@/types/common'
+import { ViewSlice } from '@/store/view.slice'
+import { Task, QuestionWithTask, ConfigView } from '@/types/common'
 import { ErrorRes } from '@/types/questionnaire.api'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
@@ -25,4 +26,11 @@ export function transformErrResponse(
       : JSON.stringify(err)
 
   return result
+}
+
+export function transformConfigView(conf: ConfigView): Partial<ViewSlice> {
+  return Object.fromEntries(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    Object.entries(conf).filter(([_, value]) => value !== null)
+  )
 }

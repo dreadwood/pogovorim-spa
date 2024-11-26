@@ -4,44 +4,47 @@ import FormFields from '@/components/form/FormFields/FormFields'
 import FormRadio from '@/components/form/FormRadio/FormRadio'
 import BtnGradient from '@/components/btn/BtnGradient/BtnGradient'
 import { useState } from 'react'
-import FormSelect, {
-  SelectOption
-} from '@/components/form/FormSelect/FormSelect'
-import { useLazyGetUserIdQuery } from '@/store/questionnaire.api'
-import { APP_ID, AppRoute } from '@/const'
+import FormSelect from '@/components/form/FormSelect/FormSelect'
+import {
+  useGetConfigQuery,
+  useLazyGetUserIdQuery
+} from '@/store/questionnaire.api'
+import { APP_ID, AppRoute, TEST_DOMAIN } from '@/const'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
 import { setUserId } from '@/store/user.slice'
 import { setUserLocal } from '@/services/user-local'
+import { getDomain } from '@/utils/common'
+import { Department } from '@/types/common'
 
-const selectList = [
+const mockDepartments = [
   {
-    text: 'Отдел рекламы и маркетинга',
-    value: '1'
+    title: 'Отдел рекламы и маркетинга',
+    id: 1
   },
   {
-    text: 'Туризм и сфера обслуживания',
-    value: '2'
+    title: 'Туризм и сфера обслуживания',
+    id: 2
   },
   {
-    text: 'Производство и технический надзор',
-    value: '3'
+    title: 'Производство и технический надзор',
+    id: 3
   },
   {
-    text: 'Отдел рейкрутинга и управления персонала',
-    value: '4'
+    title: 'Отдел рейкрутинга и управления персонала',
+    id: 4
   },
   {
-    text: 'Аналитика',
-    value: '5'
+    title: 'Аналитика',
+    id: 5
   },
   {
-    text: 'Финансы',
-    value: '6'
+    title: 'Финансы',
+    id: 6
   },
   {
-    text: 'Бухгалтерия',
-    value: '7'
+    title: 'Бухгалтерия',
+    id: 7
   }
 ]
 
@@ -50,8 +53,13 @@ interface BlockFormProps {
 }
 
 export default function BlockForm({ className }: BlockFormProps): JSX.Element {
+  const domain = getDomain()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  const { data } = useGetConfigQuery({
+    domain: domain || TEST_DOMAIN
+  })
 
   const { clientId } = useAppSelector(state => state.user)
 
@@ -65,7 +73,7 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
   const [email, setEmail] = useState<string>('')
   const [age, setAge] = useState<string>('')
   const [sex, setSex] = useState<string | null>(null)
-  const [department, setDepartment] = useState<SelectOption | null>(null)
+  const [department, setDepartment] = useState<Department | null>(null)
   const [workExperience, setWorkExperience] = useState<string>('')
 
   async function handleFormSubmit(evt: React.FormEvent<HTMLFormElement>) {
@@ -81,7 +89,7 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
       sex: sex || '',
       age: +age,
       work_experience: +workExperience,
-      department: department ? department.value : ''
+      department_id: department ? department.id : 0
     })
 
     if (!res.isSuccess) {
@@ -103,6 +111,11 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
 
     navigate(AppRoute.Start)
   }
+
+  const optionDepartment =
+    data?.departments && data.departments.length > 0
+      ? data?.departments
+      : mockDepartments
 
   return (
     <form className={clsx(styles.form, className)} onSubmit={handleFormSubmit}>
@@ -177,7 +190,7 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
           <div className={styles.select}>
             <FormSelect
               currentOption={department}
-              options={selectList}
+              options={optionDepartment}
               setOption={setDepartment}
             />
           </div>

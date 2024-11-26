@@ -2,7 +2,7 @@ import ChatPage from '@/pages/ChatPage/ChatPage'
 import HistoryRouter from '@/router/HistoryRouter'
 import browserHistory from '@/router/browserHistory'
 import { Route, Routes } from 'react-router-dom'
-import { AppRoute, DOMAIN } from '@/const'
+import { AppRoute, TEST_DOMAIN } from '@/const'
 import WelcomePage from '@/pages/WelcomePage/WelcomePage'
 import StartPage from '@/pages/StartPage/StartPage'
 import QuestionnairePage from '@/pages/QuestionnairePage/QuestionnairePage'
@@ -13,17 +13,23 @@ import ErrorDialog from '@/components/common/ErrorDialog/ErrorDialog'
 import { useAppDispatch } from '@/hooks/reducer'
 import { getUserLocal } from '@/services/user-local'
 import { setClientId, setUserId } from '@/store/user.slice'
-import FinishPage from './pages/FinishPage/FinishPage'
-import ScrollToTop from './router/ScrollToTop'
-import { transformErrResponse } from './utils/api'
+import FinishPage from '@/pages/FinishPage/FinishPage'
+import ScrollToTop from '@/router/ScrollToTop'
+import { transformConfigView, transformErrResponse } from '@/utils/api'
+import { getDomain } from '@/utils/common'
+import { updateView } from './store/view.slice'
 
 function App() {
+  const domain = getDomain()
+
   const clientId = getClientLocal()
   const userId = getUserLocal()
   const dispatch = useAppDispatch()
 
+  console.log(clientId, userId)
+
   const { data, isLoading, error } = useGetConfigQuery(
-    { domain: DOMAIN },
+    { domain: domain || TEST_DOMAIN },
     { skip: !!clientId || !!userId }
   )
 
@@ -31,6 +37,9 @@ function App() {
   if (userId) dispatch(setUserId(userId))
 
   if (data) {
+    const configView = transformConfigView(data.config)
+    dispatch(updateView(configView))
+
     dispatch(setClientId(data.uniq_id))
     setClientLocal(data.uniq_id)
   }

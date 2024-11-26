@@ -39,7 +39,7 @@ export interface IUserIdReq {
   sex: string
   age: number
   work_experience: number
-  department: string
+  department_id: number
 }
 
 export interface IUserIdRes extends Response {

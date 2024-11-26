@@ -76,9 +76,25 @@ export interface Config {
   domain: string
   title: string
   apps: AppData[]
+  config: ConfigView
+  departments: Department[]
+}
+
+export interface ConfigView {
+  logo: string | null
+  acc_color_1: string | null
+  acc_color_2: string | null
+  seo_title: string | null
+  seo_description: string | null
+  session_fields_require: 'yes'
 }
 
 export interface AppData {
+  id: number
+  title: string
+}
+
+export interface Department {
   id: number
   title: string
 }

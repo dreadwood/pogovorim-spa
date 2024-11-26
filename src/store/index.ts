@@ -3,12 +3,14 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { questionnaireApi } from './questionnaire.api'
 import questionnaireSlice from './questionnaire.slice'
 import userSlice from './user.slice'
+import viewSlice from './view.slice'
 
 export const store = configureStore({
   reducer: {
     [questionnaireApi.reducerPath]: questionnaireApi.reducer,
     questionnaire: questionnaireSlice,
-    user: userSlice
+    user: userSlice,
+    view: viewSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat([questionnaireApi.middleware])

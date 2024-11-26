@@ -2,16 +2,12 @@ import clsx from 'clsx'
 import styles from './FormSelect.module.scss'
 import Sprite from '@/components/Sprite/Sprite'
 import { useState } from 'react'
-
-export interface SelectOption {
-  text: string
-  value: string
-}
+import { Department } from '@/types/common'
 
 interface FormSelectProps {
-  currentOption: SelectOption | null
-  options: SelectOption[]
-  setOption: (opt: SelectOption) => void
+  currentOption: Department | null
+  options: Department[]
+  setOption: (opt: Department) => void
   className?: string
 }
 
@@ -23,7 +19,7 @@ export default function FormSelect({
 }: FormSelectProps): JSX.Element {
   const [open, seOpen] = useState<boolean>(false)
 
-  function handleClickOption(opt: SelectOption) {
+  function handleClickOption(opt: Department) {
     setOption(opt)
     seOpen(false)
   }
@@ -36,7 +32,7 @@ export default function FormSelect({
         onClick={() => seOpen(currentOpen => !currentOpen)}
       >
         <span>
-          {currentOption ? currentOption.text : 'Выберите подразделение'}
+          {currentOption ? currentOption.title : 'Выберите подразделение'}
         </span>
         <Sprite name="arrow-back-small" width="20" height="20" />
       </button>
@@ -45,13 +41,13 @@ export default function FormSelect({
           <button
             className={clsx(
               styles.item,
-              opt.value === currentOption?.value && styles.actv
+              opt.id === currentOption?.id && styles.actv
             )}
             type="button"
-            key={opt.value}
+            key={opt.id}
             onClick={() => handleClickOption(opt)}
           >
-            {opt.text}
+            {opt.title}
           </button>
         ))}
       </div>
