@@ -32,14 +32,14 @@ export interface IStatBlockListRes extends Response {
 export interface IUserIdReq {
   client_uniq_id: string
   app_id: number
-  email: string
-  first_name: string
-  second_name: string
-  third_name: string
-  sex: string
-  age: number
-  work_experience: number
-  department_id: number
+  email?: string
+  first_name?: string
+  second_name?: string
+  third_name?: string
+  sex?: string
+  age?: number
+  work_experience?: number
+  department_id?: number
 }
 
 export interface IUserIdRes extends Response {

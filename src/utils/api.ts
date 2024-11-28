@@ -30,7 +30,9 @@ export function transformErrResponse(
 
 export function transformConfigView(conf: ConfigView): Partial<ViewSlice> {
   return Object.fromEntries(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Object.entries(conf).filter(([_, value]) => value !== null)
+    Object.entries(conf).filter(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ([_, value]) => value !== null && value !== undefined
+    )
   )
 }

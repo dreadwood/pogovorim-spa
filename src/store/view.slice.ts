@@ -7,7 +7,7 @@ export interface ViewSlice {
   acc_color_2: string
   seo_title: string
   seo_description: string
-  session_fields_require: 'yes'
+  session_fields_require: 'yes' | 'no'
 }
 
 const initialState: ViewSlice = {

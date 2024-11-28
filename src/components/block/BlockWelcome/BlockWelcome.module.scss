@@ -164,6 +164,7 @@
   }
 }
 .btn {
+  width: max-content;
   margin-top: auto;
   @include tablet {
     margin-top: 6rem;
@@ -172,6 +173,15 @@
     margin-top: 3rem;
     margin-right: auto;
     margin-left: auto;
+  }
+}
+.message {
+  font-size: 1.4rem;
+  line-height: 2rem;
+  text-align: center;
+  color: $color-orange-crayola;
+  &:not(:empty) {
+    margin-bottom: 1rem;
   }
 }
 

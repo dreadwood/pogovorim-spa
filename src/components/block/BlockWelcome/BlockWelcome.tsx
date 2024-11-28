@@ -4,6 +4,10 @@ import BtnGradient from '@/components/btn/BtnGradient/BtnGradient'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppRoute } from '@/const'
+import { useAppDispatch, useAppSelector } from '@/hooks/reducer'
+import { useLazyGetUserIdQuery } from '@/store/questionnaire.api'
+import { setUserLocal } from '@/services/user-local'
+import { setUserId } from '@/store/user.slice'
 
 const messages = [
   [
@@ -77,7 +81,35 @@ interface BlockWelcomeProps {
 
 function BlockWelcome({ className }: BlockWelcomeProps): JSX.Element {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const { session_fields_require, appId } = useAppSelector(state => state.view)
+  const { clientId } = useAppSelector(state => state.user)
+  const [fetchGetUserId, { isFetching }] = useLazyGetUserIdQuery()
+
   const [step, setStep] = useState<number>(0)
+  const [formMessage, setFormMessage] = useState<string>('')
+
+  async function handleNextPage() {
+    if (session_fields_require === 'no') {
+      const res = await fetchGetUserId({
+        client_uniq_id: clientId || '',
+        app_id: appId
+      })
+
+      if (!res.isSuccess) {
+        setFormMessage('Произошла ошибка.')
+        return
+      }
+
+      setUserLocal(res.data.user_uniq_id)
+      dispatch(setUserId(res.data.user_uniq_id))
+
+      navigate(AppRoute.Start)
+    } else {
+      navigate(AppRoute.Questionnaire)
+    }
+  }
 
   return (
     <section className={clsx(styles.section, className)}>
@@ -132,10 +164,12 @@ function BlockWelcome({ className }: BlockWelcomeProps): JSX.Element {
             ))}
           </div>
           <div className={styles.btn}>
+            <div className={styles.message}>{formMessage}</div>
             {messages.length - 1 === step ? (
               <BtnGradient
                 text="Далее"
-                onClick={() => navigate(AppRoute.Questionnaire)}
+                onClick={handleNextPage}
+                disabled={isFetching}
               />
             ) : (
               <BtnGradient
