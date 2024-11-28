@@ -11,10 +11,10 @@ export default function PageLayout({
   children,
   className
 }: PageLayoutProps): JSX.Element {
-  const { acc_color_1, acc_color_2 } = useAppSelector(state => state.view)
+  const { accColor1, accColor2 } = useAppSelector(state => state.view)
   const style = {
-    '--acc-color': acc_color_1,
-    '--acc-color-additional': acc_color_2
+    '--acc-color': accColor1,
+    '--acc-color-additional': accColor2
   } as React.CSSProperties
 
   return (

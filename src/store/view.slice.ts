@@ -1,31 +1,38 @@
+import { ConfigView } from '@/types/common'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ViewSlice {
   appId: number
   logo: string
-  acc_color_1: string
-  acc_color_2: string
-  seo_title: string
-  seo_description: string
-  session_fields_require: 'yes' | 'no'
+  accColor1: string
+  accColor2: string
+  seoTitle: string
+  seoDescription: string
+  sessionFieldsRequire: 'yes' | 'no'
 }
 
 const initialState: ViewSlice = {
   appId: 0,
   logo: 'pogovorim.svg',
-  acc_color_1: '#3eb0a1', // $color-green-jungle-crayola
-  acc_color_2: '#57c4b6', // $color-moderate-aquamarine
-  seo_title: 'Поговорим',
-  seo_description: '',
-  session_fields_require: 'yes'
+  accColor1: '#3eb0a1', // $color-green-jungle-crayola
+  accColor2: '#57c4b6', // $color-moderate-aquamarine
+  seoTitle: 'Поговорим',
+  seoDescription: '',
+  sessionFieldsRequire: 'yes'
 }
 
 const viewSlice = createSlice({
   name: 'view',
   initialState,
   reducers: {
-    updateView: (state, action: PayloadAction<Partial<ViewSlice>>) => {
-      Object.assign(state, action.payload)
+    updateView: (state, action: PayloadAction<ConfigView>) => {
+      state.logo = action.payload.logo || state.logo
+      state.accColor1 = action.payload.acc_color_1 || state.accColor1
+      state.accColor2 = action.payload.acc_color_2 || state.accColor2
+      state.seoTitle = action.payload.seo_title || state.seoTitle
+      state.seoDescription =
+        action.payload.seo_description || state.seoDescription
+      state.sessionFieldsRequire = action.payload.session_fields_require
     },
     setAppId: (state, action: PayloadAction<number>) => {
       state.appId = action.payload

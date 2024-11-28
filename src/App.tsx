@@ -15,7 +15,7 @@ import { getUserLocal } from '@/services/user-local'
 import { setClientId, setUserId } from '@/store/user.slice'
 import FinishPage from '@/pages/FinishPage/FinishPage'
 import ScrollToTop from '@/router/ScrollToTop'
-import { transformConfigView, transformErrResponse } from '@/utils/api'
+import { transformErrResponse } from '@/utils/api'
 import { getDomain } from '@/utils/common'
 import { setAppId, updateView } from './store/view.slice'
 
@@ -26,8 +26,6 @@ function App() {
   const userId = getUserLocal()
   const dispatch = useAppDispatch()
 
-  console.log(clientId, userId)
-
   const { data, isLoading, error } = useGetConfigQuery({
     domain: domain || TEST_DOMAIN
   })
@@ -36,10 +34,7 @@ function App() {
   if (userId) dispatch(setUserId(userId))
 
   if (data) {
-    const configView = transformConfigView(data.config)
-    console.log(configView)
-
-    dispatch(updateView(configView))
+    dispatch(updateView(data.config))
     dispatch(setAppId(data.apps[0]?.id || 0))
 
     dispatch(setClientId(data.uniq_id))

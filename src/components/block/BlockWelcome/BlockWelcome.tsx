@@ -83,15 +83,15 @@ function BlockWelcome({ className }: BlockWelcomeProps): JSX.Element {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const { session_fields_require, appId } = useAppSelector(state => state.view)
+  const { sessionFieldsRequire, appId } = useAppSelector(state => state.view)
   const { clientId } = useAppSelector(state => state.user)
-  const [fetchGetUserId, { isFetching }] = useLazyGetUserIdQuery()
+  const [fetchGetUserId, { isFetching, isLoading }] = useLazyGetUserIdQuery()
 
   const [step, setStep] = useState<number>(0)
   const [formMessage, setFormMessage] = useState<string>('')
 
   async function handleNextPage() {
-    if (session_fields_require === 'no') {
+    if (sessionFieldsRequire === 'no') {
       const res = await fetchGetUserId({
         client_uniq_id: clientId || '',
         app_id: appId
@@ -169,7 +169,7 @@ function BlockWelcome({ className }: BlockWelcomeProps): JSX.Element {
               <BtnGradient
                 text="Далее"
                 onClick={handleNextPage}
-                disabled={isFetching}
+                disabled={isLoading || isFetching}
               />
             ) : (
               <BtnGradient

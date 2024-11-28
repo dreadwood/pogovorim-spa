@@ -36,6 +36,7 @@
   &[disabled] {
     // color: $color-manatee;
     background-color: var(--acc-color, #{$acc-color-1});
+    cursor: default;
     opacity: 0.5;
     // &::before {
     //   opacity: 0.5;
