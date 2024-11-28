@@ -56,15 +56,16 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
   const domain = getDomain()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { appId } = useAppSelector(state => state.view)
+
+  const { sessionFieldsRequire, appId } = useAppSelector(state => state.view)
+  const { clientId } = useAppSelector(state => state.user)
+  const [fetchGetUserId] = useLazyGetUserIdQuery()
+
+  const isShowPersonalFields = sessionFieldsRequire === 'yes'
 
   const { data } = useGetConfigQuery({
     domain: domain || TEST_DOMAIN
   })
-
-  const { clientId } = useAppSelector(state => state.user)
-
-  const [fetchGetUserId] = useLazyGetUserIdQuery()
 
   const [formMessage, setFormMessage] = useState<string>('')
 
@@ -80,18 +81,27 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
   async function handleFormSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault()
 
-    const res = await fetchGetUserId({
+    if (!department) {
+      setFormMessage('Укажите отдел.')
+      return
+    }
+
+    const req = {
       client_uniq_id: clientId || '',
       app_id: appId,
-      email: email,
-      first_name: firstName,
-      second_name: secondName,
-      third_name: thirdName,
-      sex: sex || '',
-      age: +age,
       work_experience: +workExperience,
-      department_id: department ? department.id : 0
-    })
+      department_id: department ? department.id : 0,
+      ...(isShowPersonalFields && {
+        email: email,
+        first_name: firstName,
+        second_name: secondName,
+        third_name: thirdName,
+        sex: sex || '',
+        age: +age
+      })
+    }
+
+    const res = await fetchGetUserId(req)
 
     if (!res.isSuccess) {
       setFormMessage('Произошла ошибка.')
@@ -120,70 +130,72 @@ export default function BlockForm({ className }: BlockFormProps): JSX.Element {
 
   return (
     <form className={clsx(styles.form, className)} onSubmit={handleFormSubmit}>
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Персональные данные</legend>
-        <div className={styles.grid}>
-          <FormFields
-            label="Фамилия"
-            id="secondName"
-            value={secondName}
-            required
-            onChange={evt => setSecondName(evt.target.value)}
-          />
-          <FormFields
-            label="Имя"
-            id="firstName"
-            value={firstName}
-            required
-            onChange={evt => setFirstName(evt.target.value)}
-          />
-          <FormFields
-            label="Отчество"
-            id="thirdName"
-            value={thirdName}
-            required
-            onChange={evt => setThirdName(evt.target.value)}
-          />
-          <div className={styles.select}>
-            <div className={styles.radio}>
-              <FormRadio
-                label="Муж."
-                name="gender"
-                value="male"
-                checked={sex === 'male'}
+      {isShowPersonalFields && (
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Персональные данные</legend>
+          <div className={styles.grid}>
+            <FormFields
+              label="Фамилия"
+              id="secondName"
+              value={secondName}
+              required
+              onChange={evt => setSecondName(evt.target.value)}
+            />
+            <FormFields
+              label="Имя"
+              id="firstName"
+              value={firstName}
+              required
+              onChange={evt => setFirstName(evt.target.value)}
+            />
+            <FormFields
+              label="Отчество"
+              id="thirdName"
+              value={thirdName}
+              required
+              onChange={evt => setThirdName(evt.target.value)}
+            />
+            <div className={styles.select}>
+              <div className={styles.radio}>
+                <FormRadio
+                  label="Муж."
+                  name="gender"
+                  value="male"
+                  checked={sex === 'male'}
+                  required
+                  onChange={evt => setSex(evt.target.value)}
+                />
+                <FormRadio
+                  label="Жен."
+                  name="gender"
+                  value="female"
+                  checked={sex === 'female'}
+                  required
+                  onChange={evt => {
+                    setSex(evt.target.value)
+                  }}
+                />
+              </div>
+              <FormFields
+                label="Возраст"
+                type="number"
+                id="age"
+                value={age}
                 required
-                onChange={evt => setSex(evt.target.value)}
-              />
-              <FormRadio
-                label="Жен."
-                name="gender"
-                value="female"
-                checked={sex === 'female'}
-                required
-                onChange={evt => {
-                  setSex(evt.target.value)
-                }}
+                onChange={evt => setAge(evt.target.value)}
               />
             </div>
             <FormFields
-              label="Возраст"
-              type="number"
-              id="age"
-              value={age}
+              label="Email"
+              type="email"
+              id="email"
+              value={email}
               required
-              onChange={evt => setAge(evt.target.value)}
+              onChange={evt => setEmail(evt.target.value)}
             />
           </div>
-          <FormFields
-            label="Email"
-            type="email"
-            id="email"
-            value={email}
-            required
-            onChange={evt => setEmail(evt.target.value)}
-          />
-        </div>
-      </fieldset>
+        </fieldset>
+      )}
 
       <fieldset className={styles.fieldset}>
         <legend className={styles.legend}>Отдел</legend>

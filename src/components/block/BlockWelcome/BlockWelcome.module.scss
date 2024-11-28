@@ -175,15 +175,6 @@
     margin-left: auto;
   }
 }
-.message {
-  font-size: 1.4rem;
-  line-height: 2rem;
-  text-align: center;
-  color: $color-orange-crayola;
-  &:not(:empty) {
-    margin-bottom: 1rem;
-  }
-}
 
 @keyframes show-bubble {
   30% {
